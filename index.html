@@ -1187,6 +1187,128 @@
         .warning-box strong {
             color: var(--color-gold);
         }
+    
+        /* ===== GALERÍA DE FOTOS ===== */
+        .gallery-section {
+            background: linear-gradient(145deg, #2d0505, #1a0505);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 30px 0;
+            border: 2px solid var(--color-gold);
+        }
+        .gallery-section h2 {
+            color: var(--color-gold);
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 1.8rem;
+        }
+        .gallery-filters {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+        .gallery-filter {
+            padding: 10px 20px;
+            background: var(--color-primary);
+            color: white;
+            border: 2px solid var(--color-gold);
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .gallery-filter:hover,
+        .gallery-filter.active {
+            background: var(--color-gold);
+            color: var(--color-secondary);
+        }
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .gallery-item {
+            background: rgba(0,0,0,0.3);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            border-color: var(--color-gold);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.2);
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+        }
+        .gallery-item-info {
+            padding: 15px;
+            text-align: center;
+        }
+        .gallery-item-info h4 {
+            color: var(--color-gold);
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+        .gallery-item-info p {
+            color: #ccc;
+            font-size: 0.9rem;
+        }
+        .gallery-item.hidden {
+            display: none;
+        }
+        .gallery-lightbox {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: rgba(0,0,0,0.9);
+            z-index: 5000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        .gallery-lightbox.open {
+            opacity: 1;
+            visibility: visible;
+        }
+        .gallery-lightbox img {
+            max-width: 90vw;
+            max-height: 85vh;
+            border-radius: 10px;
+            border: 3px solid var(--color-gold);
+        }
+        .gallery-lightbox-close {
+            position: absolute;
+            top: 20px; right: 20px;
+            width: 50px; height: 50px;
+            background: var(--color-primary);
+            border: 2px solid var(--color-gold);
+            border-radius: 50%;
+            color: var(--color-gold);
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        @media (max-width: 768px) {
+            .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+            .gallery-item img { height: 150px; }
+        }
+        @media (max-width: 400px) {
+            .gallery-grid { grid-template-columns: 1fr; }
+        }
+
     </style>
 <base target="_blank">
 <base target="_blank">
@@ -1215,6 +1337,9 @@
             <a href="#buffet" onclick="closeSidebarAndScroll('#buffet', event); return false;">
                 <i class="fas fa-birthday-cake"></i> Buffet
             </a>
+            <a href="#galeria" onclick="closeSidebarAndScroll('#galeria', event); return false;">
+                <i class="fas fa-images"></i> Galería
+            </a>
             <a href="#reservar" onclick="closeSidebarAndScroll('#reservar', event); return false;">
                 <i class="fas fa-calendar-check"></i> Reservar
             </a>
@@ -1238,6 +1363,7 @@
         <a href="#ofertas-especiales"><i class="fas fa-star"></i> Ofertas Especiales</a>
         <a href="#cenas"><i class="fas fa-drumstick-bite"></i> Menú M&G</a>
         <a href="#buffet"><i class="fas fa-birthday-cake"></i> Buffet</a>
+        <a href="#galeria"><i class="fas fa-images"></i> Galería</a>
         <a href="#reservar"><i class="fas fa-calendar-check"></i> Reservar</a>
         <a href="#faq"><i class="fas fa-question-circle"></i> FAQ</a>
         <a href="#contacto"><i class="fas fa-phone"></i> Contacto</a>
@@ -1322,6 +1448,84 @@
         <div class="menu-grid" id="postresGrid"></div>
     </section>
 
+    
+    <section class="section" id="galeria">
+        <div class="gallery-section">
+            <h2><i class="fas fa-images"></i> Galería M&G - En Cocina Casera</h2>
+            <div class="gallery-filters">
+                <button class="gallery-filter active" onclick="filterGallery('all')">📸 Todo</button>
+                <button class="gallery-filter" onclick="filterGallery('cenas')">🍗 Cenas</button>
+                <button class="gallery-filter" onclick="filterGallery('cakes')">🎂 Cakes</button>
+                <button class="gallery-filter" onclick="filterGallery('postres')">🍰 Postres</button>
+            </div>
+            <div class="gallery-grid" id="galleryGrid">
+                <div class="gallery-item" data-category="cenas" onclick="openLightbox('images/pollo-asado-grill.jpeg')">
+                    <img src="images/pollo-asado-grill.jpeg" alt="Pollo asado">
+                    <div class="gallery-item-info">
+                        <h4>🍗 Pollo Asado</h4>
+                        <p>25 USD - 5 comensales</p>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="cenas" onclick="openLightbox('images/pollo-asado-carbon.jpeg')">
+                    <img src="images/pollo-asado-carbon.jpeg" alt="Pollo al carbón">
+                    <div class="gallery-item-info">
+                        <h4>🍗 Pollo al Carbón</h4>
+                        <p>40 USD - 10 comensales</p>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="cakes" onclick="openLightbox('images/cake-rosa.jpeg')">
+                    <img src="images/cake-rosa.jpeg" alt="Cake decorado">
+                    <div class="gallery-item-info">
+                        <h4>🎂 Cake Especial</h4>
+                        <p>Desde 7.2 USD</p>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="cakes" onclick="openLightbox('images/cake-grageas.jpeg')">
+                    <img src="images/cake-grageas.jpeg" alt="Cake con grageas">
+                    <div class="gallery-item-info">
+                        <h4>🎂 Cake con Grageas</h4>
+                        <p>Decoración incluida</p>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="cakes" onclick="openLightbox('images/cake-felicidades.jpeg')">
+                    <img src="images/cake-felicidades.jpeg" alt="Cake personalizado">
+                    <div class="gallery-item-info">
+                        <h4>🎂 Cake Personalizado</h4>
+                        <p>Felicidades Procorilo</p>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="cakes" onclick="openLightbox('images/cake-feliz-dia.jpeg')">
+                    <img src="images/cake-feliz-dia.jpeg" alt="Cake feliz día">
+                    <div class="gallery-item-info">
+                        <h4>🎂 Cake "Feliz Día"</h4>
+                        <p>Para toda ocasión</p>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="cakes" onclick="openLightbox('images/cake-celeste.jpeg')">
+                    <img src="images/cake-celeste.jpeg" alt="Cake celeste">
+                    <div class="gallery-item-info">
+                        <h4>🎂 Cake Celeste</h4>
+                        <p>Colores personalizados</p>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="postres" onclick="openLightbox('images/ensalada-fria.jpeg')">
+                    <img src="images/ensalada-fria.jpeg" alt="Ensalada fría">
+                    <div class="gallery-item-info">
+                        <h4>🥗 Ensalada Fría</h4>
+                        <p>9.5 USD - 4 Litros</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="gallery-lightbox" id="galleryLightbox" onclick="closeLightbox()">
+        <button class="gallery-lightbox-close" onclick="closeLightbox()">
+            <i class="fas fa-times"></i>
+        </button>
+        <img src="" alt="Ampliada" id="lightboxImg">
+    </div>
+
     <section class="section" id="reservar">
         <h2 class="section-title"><i class="fas fa-calendar-check"></i> Reservar Pedido</h2>
 
@@ -1393,14 +1597,14 @@
                         </div>
                         <div class="mensajeria-option" id="optNo" onclick="selectMensajeria(false)">
                             <input type="radio" name="mensajeria" id="mensajeriaNo" value="no">
-                            <label for="mensajeriaNo">No, paso a recoger</label>
+                            <label for="mensajeriaNo">No, voy a buscar</label>
                         </div>
                     </div>
                     <div class="delivery-info" id="deliveryInfo">
-                        <p><i class="fas fa-info-circle"></i> Se añadirá 300 CUP por mensajería de buffet en toda Las Tunas. (En cenas la mensajería está incluida)</p>
+                        <p><i class="fas fa-info-circle"></i> Se añadirá 300 CUP por mensajería/delivery. Entregamos en toda Las Tunas desde nuestra ubicación en calle Josué País #38 e/ Maceo y Ramón González, Rpto Santo Domingo, Las Tunas.</p>
                     </div>
                     <div class="pickup-info" id="pickupInfo">
-                        <p><i class="fas fa-store"></i> <strong>Recogida en:</strong> Las Tunas. Debe pasar a recoger su pedido en nuestra ubicación.</p>
+                        <p><i class="fas fa-store"></i> <strong>Ven a buscarlo a:</strong><br>Dirección: calle Josué País #38 e/ Maceo y Ramón González, Rpto Santo Domingo, Las Tunas</p>
                     </div>
                     <div class="mensajeria-error" id="mensajeriaError">
                         <i class="fas fa-exclamation-circle"></i> Debe seleccionar una opción de mensajería para continuar
@@ -1457,7 +1661,7 @@
                     <i class="fas fa-chevron-down"></i>
                 </div>
                 <div class="faq-answer">
-                    <p>Somos <strong>M&G En Cocina Casera</strong>, un emprendimiento dedicado a la preparación de comidas caseras en <strong>Las Tunas, Cuba</strong>. Ofrecemos pollo y cerdo asado con los tradicionales acompañamientos criollos, así como un exquisito menú de buffet con cakes y postres artesanales.</p>
+                    <p>Somos <strong>M&G En Cocina Casera</strong>, un emprendimiento dedicado a la preparación de comidas caseras en <strong>Dirección: calle Josué País #38 e/ Maceo y Ramón González, Rpto Santo Domingo, Las Tunas</strong>. Ofrecemos pollo y cerdo asado con los tradicionales acompañamientos criollos, así como un exquisito menú de buffet con cakes y postres artesanales.</p>
                 </div>
             </div>
             <div class="faq-item">
@@ -1533,7 +1737,7 @@
             <div class="contact-details">
                 <div class="contact-item">
                     <i class="fas fa-map-marker-alt"></i>
-                    <span>Las Tunas, Cuba</span>
+                    <span>calle Josué País #38 e/ Maceo y Ramón González, Rpto Santo Domingo, Las Tunas</span>
                 </div>
                 <div class="contact-item">
                     <i class="fas fa-motorcycle"></i>
@@ -1575,7 +1779,7 @@
     </section>
     <footer class="footer">
         <p><i class="fas fa-heart" style="color:var(--color-red);"></i> © 2026 M&G En Cocina Casera. Todos los derechos reservados.</p>
-        <p style="margin-top:5px; font-size:0.8rem; color:#666;">Las Tunas, Cuba - Sabor y Tradición</p>
+        <p style="margin-top:5px; font-size:0.8rem; color:#666;">Dirección: calle Josué País #38 e/ Maceo y Ramón González, Rpto Santo Domingo, Las Tunas</p>
         <div class="footer-legal">
             <a href="#" onclick="openLegalModal('modalPolitica'); return false;"><i class="fas fa-shield-alt"></i> Política de Seguridad</a>
             <a href="#" onclick="openLegalModal('modalTerminos'); return false;"><i class="fas fa-file-contract"></i> Términos y Condiciones</a>
@@ -1626,7 +1830,7 @@
             <p>Si tiene alguna pregunta o inquietud sobre cómo manejamos sus datos personales, puede contactarnos directamente a través de WhatsApp al <strong style="color:var(--color-gold);">+53 5 6905522</strong> o visitar nuestra página de Facebook <a href="https://www.facebook.com/MyGenCocinaCasera" target="_blank" style="color:var(--color-gold);">M&G En Cocina Casera</a>.</p>
 
             <h3><i class="fas fa-map-marker-alt"></i> 8. Ubicación del Negocio</h3>
-            <p>M&G En Cocina Casera opera desde <strong style="color:var(--color-gold);">Las Tunas, Cuba</strong>. El depósito del anticipo debe realizarse en nuestro domicilio para mayor transparencia. Si el cliente lo solicita, podemos llegar hasta donde lo solicite para recibir el pago.</p>
+            <p>M&G En Cocina Casera opera desde <strong style="color:var(--color-gold);">Dirección: calle Josué País #38 e/ Maceo y Ramón González, Rpto Santo Domingo, Las Tunas</strong>. El depósito del anticipo debe realizarse en nuestro domicilio para mayor transparencia. Si el cliente lo solicita, podemos llegar hasta donde lo solicite para recibir el pago.</p>
         </div>
     </div>
 
@@ -1638,7 +1842,7 @@
             <h2><i class="fas fa-file-contract"></i> Términos y Condiciones</h2>
 
             <h3><i class="fas fa-info-circle"></i> 1. Sobre M&G En Cocina Casera</h3>
-            <p>M&G En Cocina Casera es un emprendimiento dedicado a la preparación y venta de comidas caseras. Operamos desde <strong style="color:var(--color-gold);">Las Tunas, Cuba</strong>, ofreciendo cenas de pollo y cerdo asado, así como un menú de buffet con cakes y postres artesanales. Contáctenos vía WhatsApp <strong style="color:var(--color-gold);">+53 5 6905522</strong> o síguenos en Facebook: <a href="https://www.facebook.com/MyGenCocinaCasera" target="_blank" style="color:var(--color-gold);">facebook.com/MyGenCocinaCasera</a></p>
+            <p>M&G En Cocina Casera es un emprendimiento dedicado a la preparación y venta de comidas caseras. Operamos desde <strong style="color:var(--color-gold);">Dirección: calle Josué País #38 e/ Maceo y Ramón González, Rpto Santo Domingo, Las Tunas</strong>, ofreciendo cenas de pollo y cerdo asado, así como un menú de buffet con cakes y postres artesanales. Contáctenos vía WhatsApp <strong style="color:var(--color-gold);">+53 5 6905522</strong> o síguenos en Facebook: <a href="https://www.facebook.com/MyGenCocinaCasera" target="_blank" style="color:var(--color-gold);">facebook.com/MyGenCocinaCasera</a></p>
 
             <h3><i class="fas fa-calendar-alt"></i> 2. Reservas y Anticipación</h3>
             <ul>
@@ -1701,7 +1905,7 @@
             <ul>
                 <li><strong>WhatsApp:</strong> +53 5 6905522</li>
                 <li><strong>Facebook:</strong> <a href="https://www.facebook.com/MyGenCocinaCasera" target="_blank" style="color:var(--color-gold);">M&G En Cocina Casera</a></li>
-                <li><strong>Ubicación:</strong> Las Tunas, Cuba</li>
+                <li><strong>Ubicación:</strong> calle Josué País #38 e/ Maceo y Ramón González, Rpto Santo Domingo, Las Tunas</li>
             </ul>
             <p><strong style="color:var(--color-gold);">✓ Si presenta dudas, para nosotros siempre será un placer atenderle.</strong></p>
         </div>
@@ -2121,7 +2325,7 @@
             if (data.mensajeria === 'si') {
                 text += `🛵 *Mensajería buffet:* 300 CUP\n`;
             } else {
-                text += `🏪 *Recogida en:* Las Tunas\n`;
+                text += `🏪 *Recogida en:* Dirección: calle Josué País #38 e/ Maceo y Ramón González, Rpto Santo Domingo, Las Tunas\n`;
             }
 
             text += `\n`;
@@ -2309,6 +2513,44 @@
                 if (e.target === this) closeLegalModal(this.id);
             });
         });
+    
+        // ===== GALERÍA =====
+        function filterGallery(category) {
+            const items = document.querySelectorAll('.gallery-item');
+            const buttons = document.querySelectorAll('.gallery-filter');
+
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            items.forEach(item => {
+                if (category === 'all' || item.dataset.category === category) {
+                    item.classList.remove('hidden');
+                } else {
+                    item.classList.add('hidden');
+                }
+            });
+        }
+
+        function openLightbox(src) {
+            const lightbox = document.getElementById('galleryLightbox');
+            const img = document.getElementById('lightboxImg');
+            img.src = src;
+            lightbox.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            const lightbox = document.getElementById('galleryLightbox');
+            lightbox.classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeLightbox();
+            }
+        });
+
     </script>
 </body>
 </html>
