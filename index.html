@@ -1187,6 +1187,598 @@
         .warning-box strong {
             color: var(--color-gold);
         }
+
+        /* ===== GALERÍA ===== */
+        .gallery-filters {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, var(--color-primary), #5d0c0c);
+            color: white;
+            border: 2px solid var(--color-gold);
+            border-radius: 25px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .filter-btn:hover {
+            background: var(--color-gold);
+            color: var(--color-secondary);
+            transform: translateY(-2px);
+        }
+
+        .filter-btn.active {
+            background: linear-gradient(135deg, var(--color-green), var(--color-green-dark));
+            border-color: var(--color-green);
+            color: white;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .gallery-item {
+            background: linear-gradient(145deg, var(--color-primary), #5d0c0c);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+            transition: all 0.4s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-8px);
+            border-color: var(--color-gold);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+        }
+
+        .gallery-item.hidden {
+            display: none;
+        }
+
+        .gallery-image {
+            width: 100%;
+            height: 220px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gallery-image i {
+            font-size: 4rem;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-image i {
+            transform: scale(1.1);
+        }
+
+        .placeholder-label {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.7);
+            background: rgba(0,0,0,0.4);
+            padding: 4px 12px;
+            border-radius: 15px;
+            margin-top: 8px;
+        }
+
+        /* Colores de placeholders por categoría */
+        .placeholder-cena {
+            background: linear-gradient(135deg, #8B4513, #D2691E);
+        }
+        .placeholder-cena i { color: #FFD700; }
+
+        .placeholder-cerdo {
+            background: linear-gradient(135deg, #6B2D2D, #A0522D);
+        }
+        .placeholder-cerdo i { color: #FFD700; }
+
+        .placeholder-cake {
+            background: linear-gradient(135deg, #C62828, #E57373);
+        }
+        .placeholder-cake i { color: #FFEBEE; }
+
+        .placeholder-cake-premium {
+            background: linear-gradient(135deg, #FFD700, #FFA000);
+        }
+        .placeholder-cake-premium i { color: var(--color-secondary); }
+
+        .placeholder-postre {
+            background: linear-gradient(135deg, #4A148C, #7B1FA2);
+        }
+        .placeholder-postre i { color: #E1BEE7; }
+
+        .placeholder-ensalada {
+            background: linear-gradient(135deg, #1B5E20, #4CAF50);
+        }
+        .placeholder-ensalada i { color: #C8E6C9; }
+
+        .gallery-info {
+            padding: 20px;
+        }
+
+        .gallery-info h4 {
+            color: var(--color-gold);
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .gallery-desc {
+            color: #ccc;
+            font-size: 0.85rem;
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+
+        .gallery-price {
+            display: inline-block;
+            background: var(--color-gold);
+            color: var(--color-secondary);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 1rem;
+            margin-right: 8px;
+        }
+
+        .gallery-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: rgba(37, 211, 102, 0.2);
+            color: var(--color-green);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border: 1px solid var(--color-green);
+        }
+
+        .gallery-badge.premium {
+            background: rgba(255, 215, 0, 0.2);
+            color: var(--color-gold);
+            border-color: var(--color-gold);
+        }
+
+        .gallery-badge i {
+            font-size: 0.7rem;
+        }
+
+        /* Animación de entrada */
+        @keyframes galleryFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .gallery-item {
+            animation: galleryFadeIn 0.5s ease forwards;
+        }
+
+        .gallery-item:nth-child(1) { animation-delay: 0.05s; }
+        .gallery-item:nth-child(2) { animation-delay: 0.1s; }
+        .gallery-item:nth-child(3) { animation-delay: 0.15s; }
+        .gallery-item:nth-child(4) { animation-delay: 0.2s; }
+        .gallery-item:nth-child(5) { animation-delay: 0.25s; }
+        .gallery-item:nth-child(6) { animation-delay: 0.3s; }
+        .gallery-item:nth-child(7) { animation-delay: 0.35s; }
+        .gallery-item:nth-child(8) { animation-delay: 0.4s; }
+        .gallery-item:nth-child(9) { animation-delay: 0.45s; }
+        .gallery-item:nth-child(10) { animation-delay: 0.5s; }
+        .gallery-item:nth-child(11) { animation-delay: 0.55s; }
+        .gallery-item:nth-child(12) { animation-delay: 0.6s; }
+        .gallery-item:nth-child(13) { animation-delay: 0.65s; }
+
+        /* ===== LIGHTBOX ===== */
+        .lightbox-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0,0,0,0.9);
+            z-index: 5000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .lightbox-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .lightbox-content {
+            background: linear-gradient(145deg, var(--color-primary), #5d0c0c);
+            border-radius: 20px;
+            border: 3px solid var(--color-gold);
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            transform: scale(0.8);
+            transition: transform 0.3s ease;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+        }
+
+        .lightbox-overlay.open .lightbox-content {
+            transform: scale(1);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 44px;
+            height: 44px;
+            background: rgba(255,255,255,0.15);
+            border: 2px solid var(--color-gold);
+            border-radius: 50%;
+            color: var(--color-gold);
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .lightbox-close:hover {
+            background: var(--color-gold);
+            color: var(--color-secondary);
+            transform: rotate(90deg);
+        }
+
+        .lightbox-image {
+            width: 100%;
+            height: 350px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #4a0a0a, #2d0505);
+            border-bottom: 2px solid var(--color-gold);
+        }
+
+        .lightbox-image i {
+            font-size: 6rem;
+            color: var(--color-gold);
+            margin-bottom: 15px;
+        }
+
+        .lightbox-placeholder-text {
+            font-size: 1rem;
+            color: rgba(255,255,255,0.6);
+            background: rgba(0,0,0,0.4);
+            padding: 8px 20px;
+            border-radius: 20px;
+        }
+
+        .lightbox-info {
+            padding: 25px;
+            text-align: center;
+        }
+
+        .lightbox-info h3 {
+            color: var(--color-gold);
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+        }
+
+        .lightbox-info p {
+            color: #ccc;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .lightbox-price {
+            display: inline-block;
+            background: var(--color-gold);
+            color: var(--color-secondary);
+            padding: 10px 25px;
+            border-radius: 25px;
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 15px;
+            }
+            .gallery-image {
+                height: 180px;
+            }
+            .gallery-image i {
+                font-size: 3rem;
+            }
+            .lightbox-image {
+                height: 250px;
+            }
+            .lightbox-image i {
+                font-size: 4rem;
+            }
+            .filter-btn {
+                padding: 10px 18px;
+                font-size: 0.85rem;
+            }
+        }
+
+        /* ===== GALERÍA ===== */
+        .gallery-filters {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            background: rgba(198, 40, 40, 0.3);
+            border: 2px solid var(--color-gold);
+            border-radius: 25px;
+            color: var(--color-white);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--color-gold);
+            color: var(--color-secondary);
+            transform: translateY(-2px);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            aspect-ratio: 4/3;
+            border: 2px solid transparent;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            border-color: var(--color-gold);
+        }
+
+        .gallery-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(145deg, var(--color-primary), #5d0c0c);
+            gap: 15px;
+        }
+
+        .gallery-placeholder i {
+            font-size: 4rem;
+            color: var(--color-gold);
+            opacity: 0.8;
+        }
+
+        .gallery-placeholder span {
+            color: var(--color-light);
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .cake-placeholder {
+            background: linear-gradient(145deg, #6a1b1b, #3d0a0a) !important;
+        }
+
+        .cake-premium {
+            background: linear-gradient(145deg, #8B4513, #5D2E0C) !important;
+        }
+
+        .cake-special {
+            background: linear-gradient(145deg, #4a0a4a, #2d052d) !important;
+        }
+
+        .postre-placeholder {
+            background: linear-gradient(145deg, #1a4a0a, #0d2d05) !important;
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.9));
+            padding: 30px 20px 20px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            transform: translateY(0);
+        }
+
+        .gallery-overlay h4 {
+            color: var(--color-gold);
+            margin-bottom: 5px;
+            font-size: 1.1rem;
+        }
+
+        .gallery-overlay p {
+            color: #ccc;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+
+        .gallery-price {
+            display: inline-block;
+            background: var(--color-gold);
+            color: var(--color-secondary);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        /* ===== LIGHTBOX ===== */
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0,0,0,0.9);
+            z-index: 5000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .lightbox.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .lightbox-content {
+            background: linear-gradient(145deg, var(--color-primary), #5d0c0c);
+            border-radius: 20px;
+            border: 3px solid var(--color-gold);
+            max-width: 500px;
+            width: 90%;
+            overflow: hidden;
+            transform: scale(0.8);
+            transition: transform 0.3s ease;
+        }
+
+        .lightbox.open .lightbox-content {
+            transform: scale(1);
+        }
+
+        .lightbox-placeholder {
+            height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(145deg, var(--color-primary), #3d0a0a);
+        }
+
+        .lightbox-placeholder i {
+            font-size: 5rem;
+            color: var(--color-gold);
+        }
+
+        .lightbox-info {
+            padding: 25px;
+            text-align: center;
+        }
+
+        .lightbox-info h3 {
+            color: var(--color-gold);
+            margin-bottom: 10px;
+            font-size: 1.4rem;
+        }
+
+        .lightbox-info p {
+            color: #ccc;
+            margin-bottom: 15px;
+        }
+
+        .lightbox-price {
+            display: inline-block;
+            background: var(--color-gold);
+            color: var(--color-secondary);
+            padding: 8px 25px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: var(--color-red);
+            border: 2px solid var(--color-gold);
+            border-radius: 50%;
+            color: white;
+            font-size: 1.3rem;
+            cursor: pointer;
+            z-index: 5001;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .lightbox-close:hover {
+            background: var(--color-gold);
+            color: var(--color-secondary);
+            transform: rotate(90deg);
+        }
+
+        @media (max-width: 768px) {
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 15px;
+            }
+            .gallery-placeholder i {
+                font-size: 3rem;
+            }
+            .lightbox-content {
+                max-width: 95%;
+            }
+        }
+
     </style>
 <base target="_blank">
 </head>
@@ -1208,11 +1800,17 @@
             <a href="#ofertas-especiales" onclick="closeSidebarAndScroll('#ofertas-especiales', event); return false;">
                 <i class="fas fa-star"></i> Ofertas Especiales
             </a>
+            <a href="#galeria" onclick="closeSidebarAndScroll('#galeria', event); return false;">
+                <i class="fas fa-images"></i> Galería
+            </a>
             <a href="#cenas" onclick="closeSidebarAndScroll('#cenas', event); return false;">
                 <i class="fas fa-drumstick-bite"></i> Menú M&G
             </a>
             <a href="#buffet" onclick="closeSidebarAndScroll('#buffet', event); return false;">
                 <i class="fas fa-birthday-cake"></i> Buffet
+            </a>
+            <a href="#galeria" onclick="closeSidebarAndScroll('#galeria', event); return false;">
+                <i class="fas fa-images"></i> Galería
             </a>
             <a href="#reservar" onclick="closeSidebarAndScroll('#reservar', event); return false;">
                 <i class="fas fa-calendar-check"></i> Reservar
@@ -1235,8 +1833,10 @@
 
     <nav class="nav-menu">
         <a href="#ofertas-especiales"><i class="fas fa-star"></i> Ofertas Especiales</a>
+        <a href="#galeria"><i class="fas fa-images"></i> Galería</a>
         <a href="#cenas"><i class="fas fa-drumstick-bite"></i> Menú M&G</a>
         <a href="#buffet"><i class="fas fa-birthday-cake"></i> Buffet</a>
+        <a href="#galeria"><i class="fas fa-images"></i> Galería</a>
         <a href="#reservar"><i class="fas fa-calendar-check"></i> Reservar</a>
         <a href="#faq"><i class="fas fa-question-circle"></i> FAQ</a>
         <a href="#contacto"><i class="fas fa-phone"></i> Contacto</a>
@@ -1304,9 +1904,14 @@
             <p><i class="fas fa-info-circle"></i> <strong>Pedidos con 5 días de antelación.</strong> El servicio queda reservado con el pago del 50% de anticipo.</p>
         </div>
 
+        <div class="info-box">
+            <p><i class="fas fa-info-circle"></i> <strong>El buffet puede solicitarse de forma independiente</strong> o añadirse a una cena. Usted decide según sus necesidades.</p>
+        </div>
+
         <p style="text-align:center; color:#ccc; margin-bottom:25px;">
             Pasteles, postres y bocaditos para tus eventos. <br>
-            <strong style="color:var(--color-gold);">Puedes añadir productos del buffet a tu pedido de cena en el formulario de reserva.</strong>
+            <strong style="color:var(--color-gold);">Buffet independiente:</strong> Ordene solo postres y cakes sin necesidad de comprar una cena.<br>
+            <strong style="color:var(--color-gold);">Buffet + Cena:</strong> También puede añadir productos del buffet a su pedido de cena.
         </p>
         <p style="text-align:center; color:#aaa; margin-bottom:25px; font-size:0.9rem;">
             <i class="fas fa-motorcycle"></i> Mensajería en buffet: 300 CUP en toda la ciudad de Las Tunas.
@@ -1318,6 +1923,213 @@
         <h3 style="color:var(--color-gold); margin:40px 0 20px; text-align:center;"><i class="fas fa-ice-cream"></i> Postres y Adicionales</h3>
         <div class="menu-grid" id="postresGrid"></div>
     </section>
+
+    
+    <!-- ===== GALERÍA ===== -->
+    <section class="section" id="galeria">
+        <h2 class="section-title"><i class="fas fa-images"></i> Galería M&G</h2>
+        <p style="text-align:center; color:#ccc; margin-bottom:25px;">
+            Conoce nuestras deliciosas ofertas. <strong style="color:var(--color-gold);">Haz clic en cualquier imagen para ampliar.</strong>
+        </p>
+
+        <!-- Filtros de categoría -->
+        <div class="gallery-filters">
+            <button class="filter-btn active" onclick="filterGallery('all', this)">
+                <i class="fas fa-th"></i> Todo
+            </button>
+            <button class="filter-btn" onclick="filterGallery('cenas', this)">
+                <i class="fas fa-drumstick-bite"></i> Cenas
+            </button>
+            <button class="filter-btn" onclick="filterGallery('cakes', this)">
+                <i class="fas fa-birthday-cake"></i> Cakes
+            </button>
+            <button class="filter-btn" onclick="filterGallery('postres', this)">
+                <i class="fas fa-ice-cream"></i> Postres
+            </button>
+        </div>
+
+        <!-- Grid de galería -->
+        <div class="gallery-grid" id="galleryGrid">
+
+            <!-- CENAS -->
+            <div class="gallery-item" data-category="cenas" onclick="openLightbox(this)">
+                <div class="gallery-image placeholder-cena">
+                    <i class="fas fa-drumstick-bite"></i>
+                    <span class="placeholder-label">Foto: Pollo Asado 5 lb</span>
+                </div>
+                <div class="gallery-info">
+                    <h4><i class="fas fa-fire"></i> Pollo Asado 5 Comensales</h4>
+                    <p class="gallery-desc">Pollo asado (5 lb) + arroz moros, ensalada y vianda</p>
+                    <span class="gallery-price">25 USD</span>
+                    <span class="gallery-badge"><i class="fas fa-motorcycle"></i> Delivery incluido</span>
+                </div>
+            </div>
+
+            <div class="gallery-item" data-category="cenas" onclick="openLightbox(this)">
+                <div class="gallery-image placeholder-cena">
+                    <i class="fas fa-drumstick-bite"></i>
+                    <span class="placeholder-label">Foto: Pollo Asado 10 lb</span>
+                </div>
+                <div class="gallery-info">
+                    <h4><i class="fas fa-fire"></i> Pollo Asado 10 Comensales</h4>
+                    <p class="gallery-desc">Pollo asado (10 lb) + arroz moros, ensalada y vianda</p>
+                    <span class="gallery-price">40 USD</span>
+                    <span class="gallery-badge"><i class="fas fa-motorcycle"></i> Delivery incluido</span>
+                </div>
+            </div>
+
+            <div class="gallery-item" data-category="cenas" onclick="openLightbox(this)">
+                <div class="gallery-image placeholder-cerdo">
+                    <i class="fas fa-bacon"></i>
+                    <span class="placeholder-label">Foto: Cerdo Asado 15-20 lb</span>
+                </div>
+                <div class="gallery-info">
+                    <h4><i class="fas fa-fire"></i> Cerdo Asado 10-15 Comensales</h4>
+                    <p class="gallery-desc">Cerdo asado (15-20 lb) + arroz moros, ensalada y vianda</p>
+                    <span class="gallery-price">105 USD</span>
+                    <span class="gallery-badge"><i class="fas fa-motorcycle"></i> Delivery incluido</span>
+                </div>
+            </div>
+
+            <!-- CAKES -->
+            <div class="gallery-item" data-category="cakes" onclick="openLightbox(this)">
+                <div class="gallery-image placeholder-cake">
+                    <i class="fas fa-birthday-cake"></i>
+                    <span class="placeholder-label">Foto: Cake 10x20 Guayaba</span>
+                </div>
+                <div class="gallery-info">
+                    <h4><i class="fas fa-candy-cane"></i> Cake 10x20 Guayaba</h4>
+                    <p class="gallery-desc">Simple relleno · Masa natural sin emulsionantes</p>
+                    <span class="gallery-price">7.2 USD</span>
+                    <span class="gallery-badge"><i class="fas fa-paint-brush"></i> Grageas incluidas</span>
+                </div>
+            </div>
+
+            <div class="gallery-item" data-category="cakes" onclick="openLightbox(this)">
+                <div class="gallery-image placeholder-cake">
+                    <i class="fas fa-birthday-cake"></i>
+                    <span class="placeholder-label">Foto: Cake 10x20 Nutella</span>
+                </div>
+                <div class="gallery-info">
+                    <h4><i class="fas fa-candy-cane"></i> Cake 10x20 Nutella</h4>
+                    <p class="gallery-desc">Simple relleno · Masa natural sin emulsionantes</p>
+                    <span class="gallery-price">10.4 USD</span>
+                    <span class="gallery-badge"><i class="fas fa-paint-brush"></i> Grageas incluidas</span>
+                </div>
+            </div>
+
+            <div class="gallery-item" data-category="cakes" onclick="openLightbox(this)">
+                <div class="gallery-image placeholder-cake-premium">
+                    <i class="fas fa-crown"></i>
+                    <span class="placeholder-label">Foto: Cake Premium</span>
+                </div>
+                <div class="gallery-info">
+                    <h4><i class="fas fa-crown"></i> Cake Premium Nutella + Choco</h4>
+                    <p class="gallery-desc">Relleno Nutella · Cobertura Choco Bombón · 5 días antelación</p>
+                    <span class="gallery-price">16.8 USD</span>
+                    <span class="gallery-badge premium"><i class="fas fa-star"></i> Premium</span>
+                </div>
+            </div>
+
+            <div class="gallery-item" data-category="cakes" onclick="openLightbox(this)">
+                <div class="gallery-image placeholder-cake">
+                    <i class="fas fa-birthday-cake"></i>
+                    <span class="placeholder-label">Foto: Beso de Ángel</span>
+                </div>
+                <div class="gallery-info">
+                    <h4><i class="fas fa-heart"></i> Beso de Ángel</h4>
+                    <p class="gallery-desc">Especialidad de la casa · Merengue artificial</p>
+                    <span class="gallery-price">11.7 USD</span>
+                    <span class="gallery-badge"><i class="fas fa-paint-brush"></i> Grageas incluidas</span>
+                </div>
+            </div>
+
+            <div class="gallery-item" data-category="cakes" onclick="openLightbox(this)">
+                <div class="gallery-image placeholder-cake">
+                    <i class="fas fa-birthday-cake"></i>
+                    <span class="placeholder-label">Foto: Cake Capuchino</span>
+                </div>
+                <div class="gallery-info">
+                    <h4><i class="fas fa-coffee"></i> Cake Capuchino</h4>
+                    <p class="gallery-desc">Especial · Masa natural sin emulsionantes</p>
+                    <span class="gallery-price">12.6 USD</span>
+                    <span class="gallery-badge"><i class="fas fa-paint-brush"></i> Grageas incluidas</span>
+                </div>
+            </div>
+
+            <!-- POSTRES -->
+            <div class="gallery-item" data-category="postres" onclick="openLightbox(this)">
+                <div class="gallery-image placeholder-postre">
+                    <i class="fas fa-glass-whiskey"></i>
+                    <span class="placeholder-label">Foto: Tres Leches</span>
+                </div>
+                <div class="gallery-info">
+                    <h4><i class="fas fa-glass-whiskey"></i> Tres Leches</h4>
+                    <p class="gallery-desc">Postre clásico · Delicioso y cremoso</p>
+                    <span class="gallery-price">2.0 USD</span>
+                    <span class="gallery-badge"><i class="fas fa-plus-circle"></i> Adicional</span>
+                </div>
+            </div>
+
+            <div class="gallery-item" data-category="postres" onclick="openLightbox(this)">
+                <div class="gallery-image placeholder-postre">
+                    <i class="fas fa-tint"></i>
+                    <span class="placeholder-label">Foto: Drip</span>
+                </div>
+                <div class="gallery-info">
+                    <h4><i class="fas fa-tint"></i> Drip</h4>
+                    <p class="gallery-desc">Decoración drip · Perfecto para cakes</p>
+                    <span class="gallery-price">0.8 USD</span>
+                    <span class="gallery-badge"><i class="fas fa-plus-circle"></i> Adicional</span>
+                </div>
+            </div>
+
+            <div class="gallery-item" data-category="postres" onclick="openLightbox(this)">
+                <div class="gallery-image placeholder-ensalada">
+                    <i class="fas fa-bowl-food"></i>
+                    <span class="placeholder-label">Foto: Ensalada Fría 4L</span>
+                </div>
+                <div class="gallery-info">
+                    <h4><i class="fas fa-bowl-food"></i> Ensalada Fría 4L</h4>
+                    <p class="gallery-desc">Jamón, piña, mayonesa casera · 4 litros</p>
+                    <span class="gallery-price">9.5 USD</span>
+                    <span class="gallery-badge"><i class="fas fa-plus-circle"></i> Adicional</span>
+                </div>
+            </div>
+
+            <div class="gallery-item" data-category="postres" onclick="openLightbox(this)">
+                <div class="gallery-image placeholder-ensalada">
+                    <i class="fas fa-bowl-food"></i>
+                    <span class="placeholder-label">Foto: Ensalada Fría 4L + Pollo</span>
+                </div>
+                <div class="gallery-info">
+                    <h4><i class="fas fa-bowl-food"></i> Ensalada Fría 4L + Pollo</h4>
+                    <p class="gallery-desc">Jamón, piña, mayonesa casera y pollo · 4 litros</p>
+                    <span class="gallery-price">10.5 USD</span>
+                    <span class="gallery-badge"><i class="fas fa-plus-circle"></i> Adicional</span>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ===== LIGHTBOX ===== -->
+    <div class="lightbox-overlay" id="lightboxOverlay" onclick="closeLightbox()">
+        <div class="lightbox-content" onclick="event.stopPropagation()">
+            <button class="lightbox-close" onclick="closeLightbox()">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="lightbox-image" id="lightboxImage">
+                <i class="fas fa-image" id="lightboxIcon"></i>
+                <span class="lightbox-placeholder-text" id="lightboxPlaceholderText">Foto del producto</span>
+            </div>
+            <div class="lightbox-info" id="lightboxInfo">
+                <h3 id="lightboxTitle">Título</h3>
+                <p id="lightboxDesc">Descripción</p>
+                <span class="lightbox-price" id="lightboxPrice">0 USD</span>
+            </div>
+        </div>
+    </div>
 
     <section class="section" id="reservar">
         <h2 class="section-title"><i class="fas fa-calendar-check"></i> Reservar Pedido</h2>
@@ -1972,6 +2784,7 @@
             const container = document.getElementById('summaryContent');
             let html = '';
             let totalUSD = 0;
+            const buffetEntries = Object.entries(selectedBuffet);
 
             if (selectedOffer) {
                 html += `
@@ -1981,6 +2794,13 @@
                     </div>
                 `;
                 totalUSD += selectedOffer.price;
+            } else if (buffetEntries.length > 0) {
+                html += `
+                    <div class="summary-item">
+                        <span><i class="fas fa-shopping-basket"></i> Pedido de Buffet Independiente</span>
+                        <span>Sin cena</span>
+                    </div>
+                `;
             }
 
             const buffetEntries = Object.entries(selectedBuffet);
@@ -2031,8 +2851,11 @@
         document.getElementById('orderForm').addEventListener('submit', function(e) {
             e.preventDefault();
 
-            if (!selectedOffer) {
-                showToast('❌ Por favor seleccione una oferta primero', 'error');
+            const buffetEntries = Object.entries(selectedBuffet);
+
+            // Validar que haya al menos una oferta de cena O productos de buffet
+            if (!selectedOffer && buffetEntries.length === 0) {
+                showToast('❌ Por favor seleccione una oferta de cena o productos del buffet', 'error');
                 document.getElementById('cenas').scrollIntoView({ behavior: 'smooth' });
                 return;
             }
@@ -2074,21 +2897,27 @@
             text += `📞 *2️⃣ Teléfono:* ${data.telefono}\n`;
             text += `📞 *3️⃣ Tel. alternativo:* ${data.telefonoAlt}\n`;
             text += `📍 *4️⃣ Dirección:* ${data.direccion}\n\n`;
-            text += `📦 *5️⃣ OFERTA Y/O CANTIDAD DE COMENSALES:*\n`;
-            text += `───────────────────────────────\n`;
-            text += `🍽️ ${selectedOffer.name}\n`;
-            if (selectedOffer.price > 0) {
-                text += `   Precio: ${selectedOffer.price.toFixed(2)} USD\n`;
+            if (selectedOffer) {
+                text += `📦 *5️⃣ OFERTA Y/O CANTIDAD DE COMENSALES:*\n`;
+                text += `───────────────────────────────\n`;
+                text += `🍽️ ${selectedOffer.name}\n`;
+                if (selectedOffer.price > 0) {
+                    text += `   Precio: ${selectedOffer.price.toFixed(2)} USD\n`;
+                } else {
+                    text += `   Precio: Cotización personalizada\n`;
+                }
+                text += `   Comensales: ${selectedOffer.comensales}\n`;
+                if (data.cantidadComensales) {
+                    text += `   Cantidad indicada: ${data.cantidadComensales} comensales\n`;
+                }
+                text += `\n`;
             } else {
-                text += `   Precio: Cotización personalizada\n`;
+                text += `📦 *5️⃣ PEDIDO:*\n`;
+                text += `───────────────────────────────\n`;
+                text += `🍰 Pedido de Buffet Independiente (sin cena)\n\n`;
             }
-            text += `   Comensales: ${selectedOffer.comensales}\n`;
-            if (data.cantidadComensales) {
-                text += `   Cantidad indicada: ${data.cantidadComensales} comensales\n`;
-            }
-            text += `\n`;
 
-            let totalUSD = selectedOffer.price;
+            let totalUSD = selectedOffer ? selectedOffer.price : 0;
 
             const buffetEntries = Object.entries(selectedBuffet);
             if (buffetEntries.length > 0) {
@@ -2241,6 +3070,71 @@
             });
         }
 
+
+        // ===== GALERÍA =====
+        function filterGallery(category, btn) {
+            // Actualizar botones activos
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            // Filtrar items
+            const items = document.querySelectorAll('.gallery-item');
+            items.forEach(item => {
+                if (category === 'all' || item.dataset.category === category) {
+                    item.classList.remove('hidden');
+                    // Reiniciar animación
+                    item.style.animation = 'none';
+                    item.offsetHeight; // Trigger reflow
+                    item.style.animation = '';
+                } else {
+                    item.classList.add('hidden');
+                }
+            });
+        }
+
+        // ===== LIGHTBOX =====
+        function openLightbox(item) {
+            const overlay = document.getElementById('lightboxOverlay');
+            const title = item.querySelector('.gallery-info h4').textContent;
+            const desc = item.querySelector('.gallery-desc').textContent;
+            const price = item.querySelector('.gallery-price').textContent;
+            const iconClass = item.querySelector('.gallery-image i').className;
+            const placeholderText = item.querySelector('.placeholder-label').textContent;
+
+            // Obtener el color de fondo del placeholder
+            const imageDiv = item.querySelector('.gallery-image');
+            const computedStyle = window.getComputedStyle(imageDiv);
+            const bgGradient = computedStyle.background;
+
+            document.getElementById('lightboxTitle').textContent = title;
+            document.getElementById('lightboxDesc').textContent = desc;
+            document.getElementById('lightboxPrice').textContent = price;
+            document.getElementById('lightboxPlaceholderText').textContent = placeholderText;
+
+            // Actualizar icono
+            const iconElement = document.getElementById('lightboxIcon');
+            iconElement.className = iconClass;
+
+            // Aplicar fondo del placeholder al lightbox
+            document.getElementById('lightboxImage').style.background = bgGradient;
+
+            overlay.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            const overlay = document.getElementById('lightboxOverlay');
+            overlay.classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        // Cerrar lightbox con tecla Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeLightbox();
+            }
+        });
+
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('sidebarOverlay');
@@ -2266,8 +3160,52 @@
             if (e.key === 'Escape') {
                 const sidebar = document.getElementById('sidebar');
                 if (sidebar.classList.contains('open')) toggleSidebar();
+                closeLightbox();
             }
         });
+
+        // ===== GALERÍA =====
+        function filterGallery(category, btn) {
+            const items = document.querySelectorAll('.gallery-item');
+            const buttons = document.querySelectorAll('.filter-btn');
+            
+            buttons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            items.forEach(item => {
+                if (category === 'all' || item.dataset.category === category) {
+                    item.style.display = 'block';
+                    item.style.animation = 'fadeIn 0.4s ease';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        function openLightbox(element) {
+            const title = element.querySelector('h4').textContent;
+            const desc = element.querySelector('p').textContent;
+            const price = element.querySelector('.gallery-price').textContent;
+            const icon = element.querySelector('.gallery-placeholder i').className;
+            
+            document.getElementById('lightboxTitle').textContent = title;
+            document.getElementById('lightboxDesc').textContent = desc;
+            document.getElementById('lightboxPrice').textContent = price;
+            document.getElementById('lightboxPlaceholder').innerHTML = `<i class="${icon}"></i>`;
+            
+            document.getElementById('lightbox').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        function scrollToReservar() {
+            closeLightbox();
+            document.getElementById('reservar').scrollIntoView({ behavior: 'smooth' });
+        }
 
         function openLegalModal(modalId) {
             const modal = document.getElementById(modalId);
