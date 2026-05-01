@@ -1305,9 +1305,11 @@
             <p><i class="fas fa-info-circle"></i> <strong>Pedidos con 5 días de antelación.</strong> El servicio queda reservado con el pago del 50% de anticipo.</p>
         </div>
 
+        <div class="info-box" style="margin-bottom:25px;">
+            <p><i class="fas fa-info-circle"></i> <strong>El buffet es independiente:</strong> Puedes pedir solo productos del buffet sin necesidad de ordenar una cena. También puedes añadir productos del buffet a tu pedido de cena si lo deseas.</p>
+        </div>
         <p style="text-align:center; color:#ccc; margin-bottom:25px;">
-            Pasteles, postres y bocaditos para tus eventos. <br>
-            <strong style="color:var(--color-gold);">El buffet se puede vender de manera independiente. Genera un despacho propio y puede ejecutarse con independencia a las cenas. También puedes añadir productos del buffet a tu pedido de cena en el formulario de reserva.</strong>
+            Pasteles, postres y bocaditos para tus eventos.
         </p>
         <p style="text-align:center; color:#aaa; margin-bottom:25px; font-size:0.9rem;">
             <i class="fas fa-motorcycle"></i> Mensajería en buffet: 300 CUP en toda la ciudad de Las Tunas.
@@ -1368,7 +1370,7 @@
                     </div>
                     <div class="form-group">
                         <label for="oferta"><i class="fas fa-tag"></i> Oferta solicitada *</label>
-                        <select id="oferta" name="oferta" required>
+                        <select id="oferta" name="oferta">
                             <option value="">Seleccione una oferta...</option>
                         </select>
                     </div>
@@ -1381,7 +1383,7 @@
 
                 <div class="mensajeria-container">
                     <label style="display:block; margin-bottom:10px; color:var(--color-gold); font-weight:600;">
-                        <i class="fas fa-motorcycle"></i> ¿Necesita mensajería para buffet? *
+                        <i class="fas fa-motorcycle"></i> ¿Necesita mensajería/delivery? *
                     </label>
                     <div class="mensajeria-options">
                         <div class="mensajeria-option" id="optSi" onclick="selectMensajeria(true)">
@@ -1973,8 +1975,11 @@
             const container = document.getElementById('summaryContent');
             let html = '';
             let totalUSD = 0;
+            const buffetEntries = Object.entries(selectedBuffet);
+            const hasBuffet = buffetEntries.length > 0;
+            const hasCena = selectedOffer !== null;
 
-            if (selectedOffer) {
+            if (hasCena) {
                 html += `
                     <div class="summary-item">
                         <span><i class="fas fa-drumstick-bite"></i> ${selectedOffer.name}</span>
@@ -1984,10 +1989,9 @@
                 totalUSD += selectedOffer.price;
             }
 
-            const buffetEntries = Object.entries(selectedBuffet);
-            if (buffetEntries.length > 0) {
+            if (hasBuffet) {
                 html += `<div style="margin:10px 0; padding:10px; background:rgba(0,0,0,0.2); border-radius:8px;">
-                    <strong style="color:var(--color-gold);"><i class="fas fa-cookie-bite"></i> Buffet:</strong>`;
+                    <strong style="color:var(--color-gold);"><i class="fas fa-cookie-bite"></i> ${hasCena ? 'Buffet adicional' : 'Buffet'}:</strong>`;
                 buffetEntries.forEach(([id, qty]) => {
                     const item = buffetItems.find(b => b.id === id);
                     const subtotal = item.price * qty;
@@ -2002,7 +2006,7 @@
                 html += `</div>`;
             }
 
-            if (deliveryCost > 0 && buffetEntries.length > 0) {
+            if (deliveryCost > 0 && hasBuffet) {
                 html += `
                     <div class="summary-item">
                         <span><i class="fas fa-motorcycle"></i> Mensajería buffet</span>
@@ -2011,19 +2015,19 @@
                 `;
             }
 
-            if (totalUSD > 0 || selectedOffer) {
+            if (totalUSD > 0 || hasCena || hasBuffet) {
                 html += `
                     <div class="summary-total">
                         <span><i class="fas fa-calculator"></i> TOTAL:</span>
                         <span>${totalUSD > 0 ? totalUSD.toFixed(2) + ' USD' : 'Cotización personalizada'}</span>
                     </div>
                 `;
-                if (deliveryCost > 0 && buffetEntries.length > 0) {
+                if (deliveryCost > 0 && hasBuffet) {
                     html += `<p style="text-align:center; color:#aaa; font-size:0.85rem; margin-top:5px;">+ ${deliveryCost.toLocaleString()} CUP por mensajería de buffet</p>`;
                 }
                 html += `<p style="text-align:center; color:var(--color-gold); font-size:0.9rem; margin-top:10px;"><i class="fas fa-hand-holding-usd"></i> Anticipo del 50% requerido para reservar</p>`;
             } else {
-                html = '<p style="text-align:center; color:#aaa;">Seleccione una oferta para ver el resumen...</p>';
+                html = '<p style="text-align:center; color:#aaa;">Seleccione una oferta de cena o productos del buffet para ver el resumen...</p>';
             }
 
             container.innerHTML = html;
@@ -2032,8 +2036,13 @@
         document.getElementById('orderForm').addEventListener('submit', function(e) {
             e.preventDefault();
 
-            if (!selectedOffer) {
-                showToast('❌ Por favor seleccione una oferta primero', 'error');
+            const buffetEntries = Object.entries(selectedBuffet);
+            const hasBuffet = buffetEntries.length > 0;
+            const hasCena = selectedOffer !== null;
+
+            // Si no hay ni cena ni buffet, mostrar error
+            if (!hasCena && !hasBuffet) {
+                showToast('❌ Por favor seleccione una oferta de cena o productos del buffet', 'error');
                 document.getElementById('cenas').scrollIntoView({ behavior: 'smooth' });
                 return;
             }
@@ -2066,6 +2075,9 @@
             const now = new Date();
             const fechaActual = now.toLocaleDateString('es-CU');
             const horaActual = now.toLocaleTimeString('es-CU');
+            const buffetEntries = Object.entries(selectedBuffet);
+            const hasBuffet = buffetEntries.length > 0;
+            const hasCena = selectedOffer !== null;
 
             let text = `🍖 *VALE DE RESERVACIÓN - M&G EN COCINA CASERA* 🍖\n`;
             text += `═══════════════════════════════\n\n`;
@@ -2075,25 +2087,28 @@
             text += `📞 *2️⃣ Teléfono:* ${data.telefono}\n`;
             text += `📞 *3️⃣ Tel. alternativo:* ${data.telefonoAlt}\n`;
             text += `📍 *4️⃣ Dirección:* ${data.direccion}\n\n`;
-            text += `📦 *5️⃣ OFERTA Y/O CANTIDAD DE COMENSALES:*\n`;
-            text += `───────────────────────────────\n`;
-            text += `🍽️ ${selectedOffer.name}\n`;
-            if (selectedOffer.price > 0) {
-                text += `   Precio: ${selectedOffer.price.toFixed(2)} USD\n`;
-            } else {
-                text += `   Precio: Cotización personalizada\n`;
-            }
-            text += `   Comensales: ${selectedOffer.comensales}\n`;
-            if (data.cantidadComensales) {
-                text += `   Cantidad indicada: ${data.cantidadComensales} comensales\n`;
-            }
-            text += `\n`;
 
-            let totalUSD = selectedOffer.price;
+            let totalUSD = 0;
 
-            const buffetEntries = Object.entries(selectedBuffet);
-            if (buffetEntries.length > 0) {
-                text += `🍰 *BUFFET ADICIONAL:*\n`;
+            if (hasCena) {
+                text += `📦 *5️⃣ OFERTA DE CENA:*\n`;
+                text += `───────────────────────────────\n`;
+                text += `🍽️ ${selectedOffer.name}\n`;
+                if (selectedOffer.price > 0) {
+                    text += `   Precio: ${selectedOffer.price.toFixed(2)} USD\n`;
+                } else {
+                    text += `   Precio: Cotización personalizada\n`;
+                }
+                text += `   Comensales: ${selectedOffer.comensales}\n`;
+                if (data.cantidadComensales) {
+                    text += `   Cantidad indicada: ${data.cantidadComensales} comensales\n`;
+                }
+                text += `\n`;
+                totalUSD += selectedOffer.price;
+            }
+
+            if (hasBuffet) {
+                text += `🍰 *${hasCena ? 'BUFFET ADICIONAL' : 'BUFFET'}:*\n`;
                 buffetEntries.forEach(([id, qty]) => {
                     const item = buffetItems.find(b => b.id === id);
                     const subtotal = item.price * qty;
@@ -2114,6 +2129,9 @@
                 const anticipo = totalUSD * 0.5;
                 text += `💰 *TOTAL: ${totalUSD.toFixed(2)} USD*\n`;
                 text += `💰 *ANTICIPO REQUERIDO (50%): ${anticipo.toFixed(2)} USD*\n\n`;
+            } else if (!hasCena && hasBuffet) {
+                text += `💰 *TOTAL: A calcular según productos seleccionados*\n`;
+                text += `💰 *ANTICIPO REQUERIDO (50%): Se cotizará al confirmar*\n\n`;
             }
 
             text += `📅 *Fecha de entrega:* ${data.fecha}\n`;
