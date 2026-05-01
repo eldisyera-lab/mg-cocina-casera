@@ -68,7 +68,6 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            cursor: pointer;
         }
 
         .nav-menu a:hover {
@@ -1013,7 +1012,6 @@
             font-weight: 600;
             font-size: 0.95rem;
             border: 1px solid transparent;
-            cursor: pointer;
         }
         .sidebar-nav a:hover {
             background: var(--color-primary);
@@ -1063,7 +1061,6 @@
             display: flex;
             align-items: center;
             gap: 5px;
-            cursor: pointer;
         }
         .footer-legal a:hover {
             color: var(--color-light);
@@ -1191,6 +1188,8 @@
             color: var(--color-gold);
         }
     </style>
+<base target="_blank">
+<base target="_blank">
 </head>
 <body>
 
@@ -1207,22 +1206,22 @@
             <p>En Cocina Casera</p>
         </div>
         <div class="sidebar-nav">
-            <a onclick="closeSidebarAndScroll('#ofertas-especiales')">
+            <a href="#ofertas-especiales" onclick="closeSidebarAndScroll('#ofertas-especiales', event); return false;">
                 <i class="fas fa-star"></i> Ofertas Especiales
             </a>
-            <a onclick="closeSidebarAndScroll('#cenas')">
+            <a href="#cenas" onclick="closeSidebarAndScroll('#cenas', event); return false;">
                 <i class="fas fa-drumstick-bite"></i> Menú M&G
             </a>
-            <a onclick="closeSidebarAndScroll('#buffet')">
+            <a href="#buffet" onclick="closeSidebarAndScroll('#buffet', event); return false;">
                 <i class="fas fa-birthday-cake"></i> Buffet
             </a>
-            <a onclick="closeSidebarAndScroll('#reservar')">
+            <a href="#reservar" onclick="closeSidebarAndScroll('#reservar', event); return false;">
                 <i class="fas fa-calendar-check"></i> Reservar
             </a>
-            <a onclick="closeSidebarAndScroll('#faq')">
+            <a href="#faq" onclick="closeSidebarAndScroll('#faq', event); return false;">
                 <i class="fas fa-question-circle"></i> FAQ
             </a>
-            <a onclick="closeSidebarAndScroll('#contacto')">
+            <a href="#contacto" onclick="closeSidebarAndScroll('#contacto', event); return false;">
                 <i class="fas fa-phone"></i> Contacto
             </a>
         </div>
@@ -1236,12 +1235,12 @@
     </header>
 
     <nav class="nav-menu">
-        <a onclick="scrollToSection('#ofertas-especiales')"><i class="fas fa-star"></i> Ofertas Especiales</a>
-        <a onclick="scrollToSection('#cenas')"><i class="fas fa-drumstick-bite"></i> Menú M&G</a>
-        <a onclick="scrollToSection('#buffet')"><i class="fas fa-birthday-cake"></i> Buffet</a>
-        <a onclick="scrollToSection('#reservar')"><i class="fas fa-calendar-check"></i> Reservar</a>
-        <a onclick="scrollToSection('#faq')"><i class="fas fa-question-circle"></i> FAQ</a>
-        <a onclick="scrollToSection('#contacto')"><i class="fas fa-phone"></i> Contacto</a>
+        <a href="#ofertas-especiales"><i class="fas fa-star"></i> Ofertas Especiales</a>
+        <a href="#cenas"><i class="fas fa-drumstick-bite"></i> Menú M&G</a>
+        <a href="#buffet"><i class="fas fa-birthday-cake"></i> Buffet</a>
+        <a href="#reservar"><i class="fas fa-calendar-check"></i> Reservar</a>
+        <a href="#faq"><i class="fas fa-question-circle"></i> FAQ</a>
+        <a href="#contacto"><i class="fas fa-phone"></i> Contacto</a>
     </nav>
 
     <section class="special-offers-section" id="ofertas-especiales">
@@ -1308,7 +1307,7 @@
 
         <p style="text-align:center; color:#ccc; margin-bottom:25px;">
             Pasteles, postres y bocaditos para tus eventos. <br>
-            <strong style="color:var(--color-gold);">Puedes añadir productos del buffet a tu pedido de cena en el formulario de reserva.</strong>
+            <strong style="color:var(--color-gold);">El buffet se puede vender de manera independiente. Genera un despacho propio y puede ejecutarse con independencia a las cenas. También puedes añadir productos del buffet a tu pedido de cena en el formulario de reserva.</strong>
         </p>
         <p style="text-align:center; color:#aaa; margin-bottom:25px; font-size:0.9rem;">
             <i class="fas fa-motorcycle"></i> Mensajería en buffet: 300 CUP en toda la ciudad de Las Tunas.
@@ -1571,12 +1570,13 @@
                 </button>
             </div>
         </div>
-    </section> <footer class="footer">
+    </section>
+    <footer class="footer">
         <p><i class="fas fa-heart" style="color:var(--color-red);"></i> © 2026 M&G En Cocina Casera. Todos los derechos reservados.</p>
         <p style="margin-top:5px; font-size:0.8rem; color:#666;">Las Tunas, Cuba - Sabor y Tradición</p>
         <div class="footer-legal">
-            <a onclick="openLegalModal('modalPolitica')"><i class="fas fa-shield-alt"></i> Política de Seguridad</a>
-            <a onclick="openLegalModal('modalTerminos')"><i class="fas fa-file-contract"></i> Términos y Condiciones</a>
+            <a href="#" onclick="openLegalModal('modalPolitica'); return false;"><i class="fas fa-shield-alt"></i> Política de Seguridad</a>
+            <a href="#" onclick="openLegalModal('modalTerminos'); return false;"><i class="fas fa-file-contract"></i> Términos y Condiciones</a>
         </div>
     </footer>
 
@@ -1726,8 +1726,8 @@
             { id: 'c6', name: 'Cake 12x20 cm - Guayaba/Dulce de Leche', price: 10.2, size: '12x20 cm', tipo: 'Doble Relleno', sabor: 'Guayaba / Dulce de Leche' },
             { id: 'c7', name: 'Cake 12x20 cm - Fresa', price: 10.7, size: '12x20 cm', tipo: 'Doble Relleno', sabor: 'Crema pastelera sabor Fresa' },
             { id: 'c8', name: 'Cake 12x20 cm - Choco Bombón', price: 12.3, size: '12x20 cm', tipo: 'Doble Relleno', sabor: 'Choco bombón' },
-            { id: 'c9', name: 'Beso de Ángel', price: 11.7, size: 'Especial', tipo: 'Especial', sabor: 'Beso de ángel' },
-            { id: 'c10', name: 'Cake Tradicional', price: 9.3, size: 'Tradicional', tipo: 'Tradicional', sabor: 'Tradicional' },
+            { id: 'c9', name: 'Beso de Ángel', price: 11.7, size: 'Especial', tipo: 'Especial', sabor: 'Beso de ángel con relleno de flan' },
+            { id: 'c10', name: 'Cake Tradicional', price: 9.3, size: 'Tradicional', tipo: 'Tradicional', sabor: 'Relleno de mermelada de guayaba y cubierto de merengue italiano' },
             { id: 'c11', name: 'Cake Capuchino', price: 12.6, size: 'Especial', tipo: 'Especial', sabor: 'Capuchino' },
             { id: 'c12', name: 'Cake Premium - Nutella y Choco Bombón', price: 16.8, size: 'Premium', tipo: 'Premium', sabor: 'Relleno Nutella y cobertura Choco Bombón' },
         ];
@@ -2242,11 +2242,6 @@
             });
         }
 
-        function scrollToSection(selector) {
-            const target = document.querySelector(selector);
-            if (target) target.scrollIntoView({ behavior: 'smooth' });
-        }
-
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('sidebarOverlay');
@@ -2254,8 +2249,8 @@
             overlay.classList.toggle('open');
             document.body.style.overflow = sidebar.classList.contains('open') ? 'hidden' : '';
         }
-
-        function closeSidebarAndScroll(selector) {
+        function closeSidebarAndScroll(selector, event) {
+            if (event) event.preventDefault();
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('sidebarOverlay');
             if (sidebar) sidebar.classList.remove('open');
@@ -2263,10 +2258,11 @@
             document.body.style.overflow = '';
             setTimeout(() => {
                 const target = document.querySelector(selector);
-                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
             }, 350);
         }
-
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 const sidebar = document.getElementById('sidebar');
@@ -2283,7 +2279,6 @@
                 showToast('❌ Error al abrir la ventana. Intente de nuevo.', 'error');
             }
         }
-
         function closeLegalModal(modalId) {
             const modal = document.getElementById(modalId);
             if (modal) {
@@ -2291,7 +2286,6 @@
                 document.body.style.overflow = '';
             }
         }
-
         document.querySelectorAll('.legal-modal-overlay').forEach(overlay => {
             overlay.addEventListener('click', function(e) {
                 if (e.target === this) closeLegalModal(this.id);
