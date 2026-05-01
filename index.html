@@ -1,0 +1,2295 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M&G - En Cocina Casera</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root {
+            --color-primary: #C62828;
+            --color-secondary: #8B0000;
+            --color-accent: #E53935;
+            --color-gold: #FFD700;
+            --color-light: #FFEBEE;
+            --color-white: #FFFFFF;
+            --color-green: #25D366;
+            --color-green-dark: #128C7E;
+            --color-red: #B71C1C;
+            --color-offer: #FF5252;
+            --color-dark: #1a0505;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--color-dark);
+            color: var(--color-white);
+            line-height: 1.6;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+            padding: 20px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            color: var(--color-gold);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            margin-bottom: 5px;
+        }
+
+        .header p { color: var(--color-light); font-size: 1rem; }
+
+        .nav-menu {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 15px;
+            background: rgba(0,0,0,0.3);
+        }
+
+        .nav-menu a {
+            color: var(--color-white);
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            background: var(--color-primary);
+            transition: all 0.3s ease;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-menu a:hover {
+            background: var(--color-gold);
+            color: var(--color-secondary);
+            transform: translateY(-2px);
+        }
+
+        .section {
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            color: var(--color-gold);
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 3px;
+            background: var(--color-gold);
+            margin: 10px auto;
+            border-radius: 2px;
+        }
+
+        .special-offers-section {
+            background: linear-gradient(145deg, #4a0a0a, #2d0505);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 30px auto;
+            max-width: 1200px;
+            border: 2px solid var(--color-gold);
+        }
+
+        .special-offers-section h2 {
+            color: var(--color-gold);
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 1.8rem;
+        }
+
+        .offer-accordion {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .offer-btn {
+            width: 100%;
+            padding: 18px 25px;
+            background: linear-gradient(135deg, var(--color-primary), #5d0c0c);
+            color: white;
+            border: 2px solid var(--color-gold);
+            border-radius: 15px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            text-align: left;
+        }
+
+        .offer-btn:hover {
+            background: linear-gradient(135deg, #5d0c0c, var(--color-primary));
+            transform: translateX(5px);
+        }
+
+        .offer-btn.active {
+            background: linear-gradient(135deg, var(--color-green), var(--color-green-dark));
+            border-color: var(--color-green);
+            animation: heartbeat 1.5s infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.4); }
+            14% { transform: scale(1.03); box-shadow: 0 0 0 10px rgba(37, 211, 102, 0); }
+            28% { transform: scale(1); }
+            42% { transform: scale(1.03); box-shadow: 0 0 0 10px rgba(37, 211, 102, 0); }
+            70% { transform: scale(1); }
+        }
+
+        .offer-btn i {
+            font-size: 1.3rem;
+            transition: transform 0.3s ease;
+        }
+
+        .offer-btn.active i {
+            transform: rotate(180deg);
+        }
+
+        .offer-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.4s ease;
+            background: rgba(0,0,0,0.3);
+            border-radius: 0 0 15px 15px;
+            margin-top: -10px;
+            margin-bottom: 10px;
+        }
+
+        .offer-content.open {
+            max-height: 500px;
+            padding: 20px 25px;
+        }
+
+        .offer-content p {
+            color: #ddd;
+            line-height: 1.8;
+            margin-bottom: 10px;
+        }
+
+        .offer-content .not-available {
+            color: var(--color-red);
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .menu-card {
+            background: linear-gradient(145deg, var(--color-primary), #5d0c0c);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+            transition: transform 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--color-gold);
+        }
+
+        .menu-card h3 {
+            color: var(--color-gold);
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .menu-card .includes {
+            background: rgba(0,0,0,0.3);
+            padding: 12px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .menu-card .includes h4 {
+            color: var(--color-light);
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+
+        .menu-card .includes ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .menu-card .includes ul li {
+            padding: 3px 0;
+            font-size: 0.9rem;
+            color: #ddd;
+        }
+
+        .menu-card .includes ul li::before {
+            content: "✓ ";
+            color: var(--color-green);
+            font-weight: bold;
+        }
+
+        .menu-card .price {
+            font-size: 1.8rem;
+            color: var(--color-gold);
+            font-weight: bold;
+            text-align: center;
+            margin: 15px 0;
+        }
+
+        .menu-card .comensales {
+            text-align: center;
+            color: #ccc;
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+        }
+
+        .btn-select {
+            width: 100%;
+            padding: 12px;
+            background: var(--color-green);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-select:hover {
+            background: var(--color-green-dark);
+            transform: scale(1.02);
+        }
+
+        .btn-select.selected { background: var(--color-red); }
+
+        .buffet-section {
+            background: linear-gradient(145deg, #4a0a0a, #2d0505);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 30px 0;
+            border: 2px dashed var(--color-gold);
+        }
+
+        .buffet-section h3 {
+            color: var(--color-gold);
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .buffet-section p.note {
+            text-align: center;
+            color: #ccc;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+
+        .buffet-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+        }
+
+        .buffet-item {
+            background: rgba(0,0,0,0.3);
+            padding: 15px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .buffet-item label {
+            font-weight: 600;
+            text-align: center;
+            font-size: 0.95rem;
+        }
+
+        .buffet-item .buffet-price {
+            color: var(--color-gold);
+            font-weight: bold;
+        }
+
+        .buffet-item input[type="number"] {
+            width: 80px;
+            padding: 8px;
+            border-radius: 8px;
+            border: 1px solid var(--color-gold);
+            background: rgba(255,255,255,0.1);
+            color: white;
+            text-align: center;
+            font-size: 1rem;
+        }
+
+        .buffet-item input[type="number"]:focus {
+            outline: none;
+            border-color: var(--color-green);
+        }
+
+        .order-form {
+            background: linear-gradient(145deg, var(--color-primary), #5d0c0c);
+            border-radius: 20px;
+            padding: 35px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .form-group { margin-bottom: 20px; }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--color-gold);
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 10px;
+            border: 2px solid rgba(255,255,255,0.2);
+            background: rgba(0,0,0,0.3);
+            color: white;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--color-gold);
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder { color: #aaa; }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        @media (max-width: 600px) {
+            .form-row { grid-template-columns: 1fr; }
+        }
+
+        .mensajeria-container { margin-bottom: 20px; }
+
+        .mensajeria-options {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .mensajeria-option {
+            flex: 1;
+            min-width: 200px;
+            padding: 15px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .mensajeria-option:hover {
+            background: rgba(255,255,255,0.05);
+        }
+
+        .mensajeria-option.selected {
+            border-color: var(--color-green);
+            background: rgba(37, 211, 102, 0.15);
+        }
+
+        .mensajeria-option.selected-no {
+            border-color: var(--color-accent);
+            background: rgba(229, 57, 53, 0.15);
+        }
+
+        .mensajeria-option input[type="radio"] {
+            width: 22px;
+            height: 22px;
+            accent-color: var(--color-green);
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .mensajeria-option label {
+            color: var(--color-light);
+            font-size: 1rem;
+            margin: 0;
+            cursor: pointer;
+            flex: 1;
+            font-weight: 600;
+        }
+
+        .mensajeria-option .option-price {
+            color: var(--color-gold);
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .mensajeria-error {
+            color: var(--color-red);
+            font-size: 0.9rem;
+            margin-top: 8px;
+            display: none;
+            font-weight: 600;
+            padding: 8px 12px;
+            background: rgba(183, 28, 28, 0.15);
+            border-radius: 8px;
+            border-left: 3px solid var(--color-red);
+        }
+
+        .mensajeria-error.visible {
+            display: block;
+            animation: shake 0.5s ease;
+        }
+
+        .pickup-info {
+            background: rgba(229, 57, 53, 0.2);
+            border: 1px solid var(--color-accent);
+            border-radius: 10px;
+            padding: 12px;
+            margin-top: 10px;
+            display: none;
+        }
+
+        .pickup-info.visible {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .pickup-info p {
+            color: var(--color-accent);
+            font-size: 0.95rem;
+            margin: 0;
+        }
+
+        .pickup-info p strong {
+            color: var(--color-gold);
+        }
+
+        .delivery-info {
+            background: rgba(37, 211, 102, 0.15);
+            border: 1px solid var(--color-green);
+            border-radius: 10px;
+            padding: 12px;
+            margin-top: 10px;
+            display: none;
+        }
+
+        .delivery-info.visible { display: block; }
+
+        .delivery-info p {
+            color: var(--color-green);
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .selected-summary {
+            background: rgba(0,0,0,0.3);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 25px 0;
+            border: 2px solid var(--color-gold);
+        }
+
+        .selected-summary h4 {
+            color: var(--color-gold);
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .summary-item:last-child { border-bottom: none; }
+
+        .summary-total {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            margin-top: 10px;
+            border-top: 2px solid var(--color-gold);
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--color-gold);
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, var(--color-green), var(--color-green-dark));
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4);
+        }
+
+        .voucher-preview {
+            background: white;
+            color: #333;
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 25px;
+            display: none;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        }
+
+        .voucher-preview.visible { display: block; }
+
+        .voucher-preview h3 {
+            color: var(--color-primary);
+            text-align: center;
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--color-gold);
+            padding-bottom: 10px;
+        }
+
+        .voucher-content {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.8;
+            white-space: pre-wrap;
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px dashed #ccc;
+        }
+
+        .voucher-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .voucher-actions a,
+        .voucher-actions button {
+            flex: 1;
+            min-width: 200px;
+            padding: 12px;
+            border-radius: 10px;
+            text-align: center;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-whatsapp {
+            background: var(--color-green);
+            color: white;
+        }
+
+        .btn-whatsapp:hover { background: var(--color-green-dark); }
+
+        .btn-print {
+            background: #6c757d;
+            color: white;
+        }
+
+        .faq-item {
+            background: rgba(0,0,0,0.2);
+            border-radius: 12px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .faq-question {
+            padding: 18px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            transition: background 0.3s ease;
+            color: var(--color-light);
+        }
+
+        .faq-question:hover { background: rgba(255,255,255,0.05); }
+
+        .faq-question i {
+            color: var(--color-gold);
+            transition: transform 0.3s ease;
+        }
+
+        .faq-answer {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.4s ease;
+        }
+
+        .faq-answer.open {
+            padding: 0 20px 18px;
+            max-height: 500px;
+        }
+
+        .faq-answer p {
+            color: #ccc;
+            line-height: 1.7;
+        }
+
+        .contact-info {
+            text-align: center;
+            padding: 30px;
+        }
+
+        .contact-info .company-name {
+            font-size: 1.8rem;
+            color: var(--color-gold);
+            margin-bottom: 20px;
+        }
+
+        .contact-details {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.1rem;
+        }
+
+        .contact-item i {
+            color: var(--color-gold);
+            font-size: 1.3rem;
+        }
+
+        .social-section {
+            background: linear-gradient(145deg, #1a0505, #2d0505);
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .social-section h3 {
+            color: var(--color-gold);
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 25px;
+            background: #1877F2;
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            min-width: 280px;
+            justify-content: center;
+        }
+
+        .social-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(24, 119, 242, 0.4);
+        }
+
+        .social-link i { font-size: 1.5rem; }
+
+        .rating-section {
+            background: linear-gradient(145deg, #2d0505, #1a0505);
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 30px;
+            text-align: center;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .rating-section h3 {
+            color: var(--color-gold);
+            margin-bottom: 15px;
+        }
+
+        .rating-section p {
+            color: #ccc;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+
+        .stars {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .star {
+            font-size: 2.5rem;
+            color: #555;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .star:hover,
+        .star.active {
+            color: var(--color-gold);
+            transform: scale(1.2);
+        }
+
+        .rating-textarea {
+            width: 100%;
+            max-width: 500px;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid var(--color-gold);
+            background: rgba(0,0,0,0.3);
+            color: white;
+            resize: vertical;
+            min-height: 80px;
+            margin-bottom: 15px;
+        }
+
+        .btn-rating {
+            padding: 12px 30px;
+            background: var(--color-gold);
+            color: var(--color-secondary);
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-rating:hover { transform: scale(1.05); }
+
+        .footer {
+            background: #1a0505;
+            text-align: center;
+            padding: 25px;
+            margin-top: 40px;
+            border-top: 2px solid var(--color-primary);
+        }
+
+        .footer p {
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        .whatsapp-float {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            width: 60px;
+            height: 60px;
+            background: var(--color-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.8rem;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 999;
+            text-decoration: none;
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.7);
+        }
+
+        .whatsapp-float .float-text {
+            position: absolute;
+            right: 70px;
+            background: var(--color-green);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .whatsapp-float:hover .float-text {
+            opacity: 1;
+        }
+
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--color-green);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            transform: translateX(400px);
+            transition: transform 0.4s ease;
+            z-index: 10000;
+            font-weight: 600;
+        }
+
+        .toast.show { transform: translateX(0); }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.6rem; }
+            .nav-menu { gap: 8px; }
+            .nav-menu a { padding: 8px 15px; font-size: 0.9rem; }
+            .section { padding: 25px 15px; }
+            .menu-grid { grid-template-columns: 1fr; }
+            .buffet-grid { grid-template-columns: 1fr; }
+            .social-link { min-width: 100%; }
+            .offer-btn { font-size: 1rem; padding: 15px 20px; }
+            .mensajeria-options { flex-direction: column; }
+            .whatsapp-float .float-text { display: none; }
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 260px;
+            height: 100vh;
+            background: linear-gradient(180deg, var(--color-secondary), #1a0505);
+            border-right: 3px solid var(--color-gold);
+            z-index: 2000;
+            transform: translateX(-100%);
+            transition: transform 0.35s ease;
+            overflow-y: auto;
+            padding-top: 70px;
+            padding-bottom: 30px;
+        }
+        .sidebar.open { transform: translateX(0); }
+        .sidebar-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: rgba(0,0,0,0.6);
+            z-index: 1999;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.35s ease, visibility 0.35s ease;
+        }
+        .sidebar-overlay.open { opacity: 1; visibility: visible; }
+        .sidebar-toggle {
+            position: fixed;
+            top: 15px; left: 15px;
+            width: 48px; height: 48px;
+            background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+            border: 2px solid var(--color-gold);
+            border-radius: 12px;
+            color: var(--color-gold);
+            font-size: 1.3rem;
+            cursor: pointer;
+            z-index: 2001;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+        .sidebar-toggle:hover {
+            background: var(--color-gold);
+            color: var(--color-secondary);
+            transform: scale(1.05);
+        }
+        .sidebar-header {
+            text-align: center;
+            padding: 20px 15px;
+            border-bottom: 2px solid var(--color-gold);
+            margin-bottom: 15px;
+        }
+        .sidebar-header h2 {
+            color: var(--color-gold);
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+        }
+        .sidebar-header p {
+            color: var(--color-light);
+            font-size: 0.8rem;
+        }
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            padding: 0 15px;
+        }
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 18px;
+            color: var(--color-white);
+            text-decoration: none;
+            border-radius: 12px;
+            background: rgba(198, 40, 40, 0.3);
+            transition: all 0.3s ease;
+            font-weight: 600;
+            font-size: 0.95rem;
+            border: 1px solid transparent;
+        }
+        .sidebar-nav a:hover {
+            background: var(--color-primary);
+            border-color: var(--color-gold);
+            transform: translateX(5px);
+        }
+        .sidebar-nav a i {
+            color: var(--color-gold);
+            font-size: 1.1rem;
+            width: 24px;
+            text-align: center;
+        }
+        .sidebar-close {
+            position: absolute;
+            top: 15px; right: 15px;
+            width: 36px; height: 36px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid var(--color-gold);
+            border-radius: 50%;
+            color: var(--color-gold);
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        .sidebar-close:hover {
+            background: var(--color-gold);
+            color: var(--color-secondary);
+        }
+        .header { padding-left: 70px; }
+        .footer-legal {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 215, 0, 0.2);
+        }
+        .footer-legal a {
+            color: var(--color-gold);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .footer-legal a:hover {
+            color: var(--color-light);
+            text-decoration: underline;
+        }
+        @media (max-width: 768px) {
+            .sidebar { width: 280px; }
+            .sidebar-toggle { width: 44px; height: 44px; font-size: 1.1rem; top: 12px; left: 12px; }
+            .header { padding-left: 60px; padding-top: 15px; padding-bottom: 15px; }
+            .header h1 { font-size: 1.4rem; }
+        }
+        @media (max-width: 400px) {
+            .sidebar { width: 260px; }
+            .sidebar-nav a { padding: 12px 14px; font-size: 0.9rem; }
+        }
+
+        .legal-modal-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: rgba(0,0,0,0.8);
+            z-index: 3000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.35s ease, visibility 0.35s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .legal-modal-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+        .legal-modal {
+            background: linear-gradient(145deg, var(--color-primary), #5d0c0c);
+            border-radius: 20px;
+            border: 2px solid var(--color-gold);
+            max-width: 800px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 30px;
+            position: relative;
+            transform: scale(0.9);
+            transition: transform 0.35s ease;
+        }
+        .legal-modal-overlay.open .legal-modal {
+            transform: scale(1);
+        }
+        .legal-modal-close {
+            position: absolute;
+            top: 15px; right: 15px;
+            width: 40px; height: 40px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid var(--color-gold);
+            border-radius: 50%;
+            color: var(--color-gold);
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        .legal-modal-close:hover {
+            background: var(--color-gold);
+            color: var(--color-secondary);
+        }
+        .legal-modal h2 {
+            color: var(--color-gold);
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 1.6rem;
+        }
+        .legal-modal h3 {
+            color: var(--color-gold);
+            margin: 20px 0 10px;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .legal-modal p, .legal-modal li {
+            color: #ddd;
+            line-height: 1.7;
+            margin-bottom: 8px;
+        }
+        .legal-modal ul {
+            padding-left: 25px;
+            margin-bottom: 15px;
+        }
+        .legal-modal ul li::marker { color: var(--color-gold); }
+        @media (max-width: 768px) {
+            .legal-modal { padding: 20px; max-height: 90vh; }
+            .legal-modal h2 { font-size: 1.3rem; }
+        }
+
+        .info-box {
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid var(--color-gold);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .info-box p {
+            color: var(--color-light);
+            line-height: 1.8;
+        }
+        .info-box strong {
+            color: var(--color-gold);
+        }
+        .warning-box {
+            background: rgba(183, 28, 28, 0.2);
+            border: 1px solid var(--color-red);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .warning-box p {
+            color: #ff8a8a;
+            line-height: 1.8;
+        }
+        .warning-box strong {
+            color: var(--color-gold);
+        }
+    </style>
+<base target="_blank">
+</head>
+<body>
+
+    <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()" title="Menú de navegación">
+        <i class="fas fa-bars"></i>
+    </button>
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+    <nav class="sidebar" id="sidebar">
+        <button class="sidebar-close" onclick="toggleSidebar()" title="Cerrar menú">
+            <i class="fas fa-times"></i>
+        </button>
+        <div class="sidebar-header">
+            <h2><i class="fas fa-utensils"></i> M&G</h2>
+            <p>En Cocina Casera</p>
+        </div>
+        <div class="sidebar-nav">
+            <a href="#ofertas-especiales" onclick="closeSidebarAndScroll('#ofertas-especiales', event); return false;">
+                <i class="fas fa-star"></i> Ofertas Especiales
+            </a>
+            <a href="#cenas" onclick="closeSidebarAndScroll('#cenas', event); return false;">
+                <i class="fas fa-drumstick-bite"></i> Menú M&G
+            </a>
+            <a href="#buffet" onclick="closeSidebarAndScroll('#buffet', event); return false;">
+                <i class="fas fa-birthday-cake"></i> Buffet
+            </a>
+            <a href="#reservar" onclick="closeSidebarAndScroll('#reservar', event); return false;">
+                <i class="fas fa-calendar-check"></i> Reservar
+            </a>
+            <a href="#faq" onclick="closeSidebarAndScroll('#faq', event); return false;">
+                <i class="fas fa-question-circle"></i> FAQ
+            </a>
+            <a href="#contacto" onclick="closeSidebarAndScroll('#contacto', event); return false;">
+                <i class="fas fa-phone"></i> Contacto
+            </a>
+        </div>
+    </nav>
+
+    <div id="toast" class="toast"></div>
+
+    <header class="header">
+        <h1><i class="fas fa-utensils"></i> M&G</h1>
+        <p>En Cocina Casera - Sabor y Tradición</p>
+    </header>
+
+    <nav class="nav-menu">
+        <a href="#ofertas-especiales"><i class="fas fa-star"></i> Ofertas Especiales</a>
+        <a href="#cenas"><i class="fas fa-drumstick-bite"></i> Menú M&G</a>
+        <a href="#buffet"><i class="fas fa-birthday-cake"></i> Buffet</a>
+        <a href="#reservar"><i class="fas fa-calendar-check"></i> Reservar</a>
+        <a href="#faq"><i class="fas fa-question-circle"></i> FAQ</a>
+        <a href="#contacto"><i class="fas fa-phone"></i> Contacto</a>
+    </nav>
+
+    <section class="special-offers-section" id="ofertas-especiales">
+        <h2><i class="fas fa-gift"></i> Ofertas Especiales</h2>
+        <div class="offer-accordion">
+            <button class="offer-btn active" onclick="toggleOffer(this, 'oferta-precios')">
+                <span><i class="fas fa-dollar-sign"></i> Información de Precios</span>
+                <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="offer-content open" id="oferta-precios">
+                <p><i class="fas fa-info-circle" style="color:var(--color-gold);"></i> <strong>¡Información importante!</strong></p>
+                <p>Debido a la inestabilidad del mercado, los precios de nuestras ofertas están expresados en <strong style="color:var(--color-gold);">dólares (USD)</strong> para mantener una tarifa estable y evitar constantes cambios.</p>
+                <p>Usted puede realizar su pago en <strong>moneda nacional al tipo de cambio vigente</strong> o vía <strong>Zelle</strong>.</p>
+            </div>
+
+            <button class="offer-btn" onclick="toggleOffer(this, 'oferta-mayores')">
+                <span><i class="fas fa-users"></i> Ofertas para Grupos Mayores</span>
+                <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="offer-content" id="oferta-mayores">
+                <p>Para ofertas mayores se le cotiza de acuerdo a la cantidad de comensales que usted desee. Contáctenos para una cotización personalizada.</p>
+            </div>
+
+            <button class="offer-btn" onclick="toggleOffer(this, 'oferta-anticipo')">
+                <span><i class="fas fa-hand-holding-usd"></i> Política de Anticipo</span>
+                <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="offer-content" id="oferta-anticipo">
+                <p>El servicio queda reservado sólo con el pago de un <strong style="color:var(--color-gold);">anticipo del 50%</strong>. Puede ser en USD, Zelle o moneda nacional.</p>
+                <p>En caso de Zelle se aplicará un <strong>10% de interés</strong>.</p>
+                <p>El depósito debe realizarse en nuestro domicilio para mayor transparencia. Si el cliente lo solicita, podemos llegar hasta donde lo solicite.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="cenas">
+        <h2 class="section-title"><i class="fas fa-drumstick-bite"></i> Menú M&G - En Cocina Casera</h2>
+
+        <div class="info-box">
+            <p><i class="fas fa-dollar-sign"></i> <strong>Precios expresados en USD</strong> para mantener tarifas estables ante la inestabilidad del mercado. Pago en moneda nacional al tipo de cambio vigente o vía Zelle.</p>
+        </div>
+
+        <p style="text-align:center; color:#ccc; margin-bottom:25px;">
+            Deliciosas cenas de pollo y cerdo asado para tus celebraciones. <br>
+            <strong style="color:var(--color-gold);">Todas las cenas incluyen:</strong> Arroz moros y cristianos, ensalada y vianda de estación.
+        </p>
+        <p style="text-align:center; color:#ff6b6b; margin-bottom:25px; font-size:0.9rem; font-weight:bold;">
+            <i class="fas fa-exclamation-triangle"></i> El pesaje de las carnes es antes de la cocción, pues al pasar por este proceso el pesaje merma.
+        </p>
+        <p style="text-align:center; color:#aaa; margin-bottom:25px; font-size:0.9rem;">
+            <i class="fas fa-motorcycle"></i> La mensajería en las cenas está incluida en el precio de la oferta.
+        </p>
+
+        <h3 style="color:var(--color-gold); margin-bottom:20px; text-align:center;"><i class="fas fa-fire"></i> Ofertas Disponibles</h3>
+        <div class="menu-grid" id="ofertasGrid"></div>
+    </section>
+
+    <section class="section" id="buffet">
+        <h2 class="section-title"><i class="fas fa-birthday-cake"></i> Menú Buffet</h2>
+
+        <div class="info-box">
+            <p><i class="fas fa-info-circle"></i> <strong>Pedidos con 5 días de antelación.</strong> El servicio queda reservado con el pago del 50% de anticipo.</p>
+        </div>
+
+        <p style="text-align:center; color:#ccc; margin-bottom:25px;">
+            Pasteles, postres y bocaditos para tus eventos. <br>
+            <strong style="color:var(--color-gold);">Puedes añadir productos del buffet a tu pedido de cena en el formulario de reserva.</strong>
+        </p>
+        <p style="text-align:center; color:#aaa; margin-bottom:25px; font-size:0.9rem;">
+            <i class="fas fa-motorcycle"></i> Mensajería en buffet: 300 CUP en toda la ciudad de Las Tunas.
+        </p>
+
+        <h3 style="color:var(--color-gold); margin:40px 0 20px; text-align:center;"><i class="fas fa-cookie-bite"></i> Cakes</h3>
+        <div class="menu-grid" id="cakesGrid"></div>
+
+        <h3 style="color:var(--color-gold); margin:40px 0 20px; text-align:center;"><i class="fas fa-ice-cream"></i> Postres y Adicionales</h3>
+        <div class="menu-grid" id="postresGrid"></div>
+    </section>
+
+    <section class="section" id="reservar">
+        <h2 class="section-title"><i class="fas fa-calendar-check"></i> Reservar Pedido</h2>
+
+        <div class="warning-box">
+            <p><i class="fas fa-exclamation-triangle"></i> <strong>Importante:</strong> Los pedidos deben realizarse con <strong>5 días de antelación</strong> para asegurar el servicio. El servicio queda reservado sólo con el pago del 50% de anticipo.</p>
+        </div>
+
+        <p style="text-align:center; color:#ccc; margin-bottom:25px;">
+            Complete el formulario y te enviaremos el vale de reservación por WhatsApp<br>
+            <strong style="color:var(--color-gold);"><i class="fas fa-clock"></i> Horarios de entrega de cenas:</strong> De 11:30 am a 5:00 pm (En días festivos horario abierto)
+        </p>
+
+        <div class="order-form">
+            <form id="orderForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="nombre"><i class="fas fa-user"></i> Nombre y Apellidos *</label>
+                        <input type="text" id="nombre" name="nombre" required placeholder="Ej: Juan Pérez García">
+                    </div>
+                    <div class="form-group">
+                        <label for="telefono"><i class="fas fa-phone"></i> Teléfono *</label>
+                        <input type="tel" id="telefono" name="telefono" required placeholder="Ej: +53 51234567">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="direccion"><i class="fas fa-map-marker-alt"></i> Dirección completa del lugar a entregar *</label>
+                    <input type="text" id="direccion" name="direccion" required placeholder="Ej: Calle 23 #456 e/ A y B, Las Tunas">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="telefonoAlt"><i class="fas fa-phone-alt"></i> Teléfono alternativo *</label>
+                        <input type="tel" id="telefonoAlt" name="telefonoAlt" required placeholder="Segundo número de contacto">
+                    </div>
+                    <div class="form-group">
+                        <label for="fecha"><i class="fas fa-calendar"></i> Fecha de entrega *</label>
+                        <input type="date" id="fecha" name="fecha" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="hora"><i class="fas fa-clock"></i> Hora de entrega *</label>
+                        <input type="time" id="hora" name="hora" required min="11:30" max="17:00">
+                    </div>
+                    <div class="form-group">
+                        <label for="oferta"><i class="fas fa-tag"></i> Oferta solicitada *</label>
+                        <select id="oferta" name="oferta" required>
+                            <option value="">Seleccione una oferta...</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="cantidadComensales"><i class="fas fa-users"></i> Cantidad de comensales (si aplica)</label>
+                    <input type="number" id="cantidadComensales" name="cantidadComensales" min="1" placeholder="Ej: 15">
+                </div>
+
+                <div class="mensajeria-container">
+                    <label style="display:block; margin-bottom:10px; color:var(--color-gold); font-weight:600;">
+                        <i class="fas fa-motorcycle"></i> ¿Necesita mensajería para buffet? *
+                    </label>
+                    <div class="mensajeria-options">
+                        <div class="mensajeria-option" id="optSi" onclick="selectMensajeria(true)">
+                            <input type="radio" name="mensajeria" id="mensajeriaSi" value="si">
+                            <label for="mensajeriaSi">Sí, necesito delivery buffet</label>
+                            <span class="option-price">+300 CUP</span>
+                        </div>
+                        <div class="mensajeria-option" id="optNo" onclick="selectMensajeria(false)">
+                            <input type="radio" name="mensajeria" id="mensajeriaNo" value="no">
+                            <label for="mensajeriaNo">No, paso a recoger</label>
+                        </div>
+                    </div>
+                    <div class="delivery-info" id="deliveryInfo">
+                        <p><i class="fas fa-info-circle"></i> Se añadirá 300 CUP por mensajería de buffet en toda Las Tunas. (En cenas la mensajería está incluida)</p>
+                    </div>
+                    <div class="pickup-info" id="pickupInfo">
+                        <p><i class="fas fa-store"></i> <strong>Recogida en:</strong> Las Tunas. Debe pasar a recoger su pedido en nuestra ubicación.</p>
+                    </div>
+                    <div class="mensajeria-error" id="mensajeriaError">
+                        <i class="fas fa-exclamation-circle"></i> Debe seleccionar una opción de mensajería para continuar
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-top:20px;">
+                    <label for="notas"><i class="fas fa-sticky-note"></i> Notas adicionales</label>
+                    <textarea id="notas" name="notas" rows="3" placeholder="Indique cualquier detalle especial sobre su pedido, decoración del cake, etc."></textarea>
+                </div>
+
+                <div class="buffet-section">
+                    <h3><i class="fas fa-plus-circle"></i> Añadir Productos del Buffet (Opcional)</h3>
+                    <p class="note">Seleccione la cantidad deseada de cada producto. Se sumarán al importe total de su pedido.</p>
+                    <div class="buffet-grid" id="buffetOrderGrid"></div>
+                </div>
+
+                <div class="selected-summary" id="selectedSummary">
+                    <h4><i class="fas fa-receipt"></i> Resumen del Pedido</h4>
+                    <div id="summaryContent">
+                        <p style="text-align:center; color:#aaa;">Seleccione una oferta para ver el resumen...</p>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-submit">
+                    <i class="fab fa-whatsapp"></i> Generar Vale y Enviar por WhatsApp
+                </button>
+            </form>
+
+            <div class="voucher-preview" id="voucherPreview">
+                <h3><i class="fas fa-file-invoice"></i> Vale de Reservación - Vista Previa</h3>
+                <div class="voucher-content" id="voucherContent"></div>
+                <div class="voucher-actions">
+                    <a href="#" id="whatsappLink" class="btn-whatsapp" target="_blank">
+                        <i class="fab fa-whatsapp"></i> Enviar por WhatsApp
+                    </a>
+                    <button type="button" class="btn-print" onclick="copyVoucherToClipboard()">
+                        <i class="fas fa-copy"></i> Copiar Texto
+                    </button>
+                    <button type="button" class="btn-print" onclick="window.print()">
+                        <i class="fas fa-print"></i> Imprimir / Guardar PDF
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="faq">
+        <h2 class="section-title"><i class="fas fa-question-circle"></i> Preguntas Frecuentes</h2>
+        <div class="faq-container">
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span><i class="fas fa-map-marker-alt"></i> ¿De dónde somos?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Somos <strong>M&G En Cocina Casera</strong>, un emprendimiento dedicado a la preparación de comidas caseras en <strong>Las Tunas, Cuba</strong>. Ofrecemos pollo y cerdo asado con los tradicionales acompañamientos criollos, así como un exquisito menú de buffet con cakes y postres artesanales.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span><i class="fas fa-shipping-fast"></i> ¿A dónde llegan sus servicios?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Realizamos entregas de <strong>cenas</strong> con mensajería incluida en el precio de la oferta. Para productos de <strong>buffet</strong>, la mensajería tiene un costo de <strong>300 CUP</strong> en toda la ciudad de Las Tunas.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span><i class="fas fa-clock"></i> ¿Con cuánta anticipación debo reservar?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Los pedidos deben realizarse con <strong>5 días de antelación</strong> para asegurar el servicio. El servicio queda reservado sólo con el pago de un <strong>anticipo del 50%</strong>.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span><i class="fas fa-motorcycle"></i> ¿La mensajería está incluida?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>La mensajería en las <strong>cenas</strong> está incluida en el precio de la oferta. Para productos de <strong>buffet</strong>, la mensajería tiene un costo adicional de <strong>300 CUP</strong> en toda la ciudad de Las Tunas.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span><i class="fas fa-dollar-sign"></i> ¿En qué moneda están los precios?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Los precios están expresados en <strong>dólares (USD)</strong> para mantener una tarifa estable ante la inestabilidad del mercado. Puede pagar en <strong>moneda nacional al tipo de cambio vigente</strong> o vía <strong>Zelle</strong>. En caso de Zelle se aplica un <strong>10% de interés</strong>.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span><i class="fas fa-hand-holding-usd"></i> ¿Cómo funciona el anticipo?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>El servicio queda reservado con el pago del <strong>50% de anticipo</strong>. Puede ser en USD, Zelle o moneda nacional. El depósito debe realizarse en nuestro domicilio para mayor transparencia. El 50% restante se abona al momento de la entrega. En caso de pago por Zelle, debe ser abonado el día antes del servicio.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span><i class="fas fa-cake"></i> ¿Qué incluye la decoración del cake?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Con el pago del cake solo se incluye en la decoración <strong>grageas</strong>. Toppers y otros artículos decorativos tienen costo adicional. Las masas están elaboradas únicamente con ingredientes naturales, sin emulsionantes. El merengue utilizado es artificial; si desea merengue italiano o suizo, podemos cotizarlo especialmente.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span><i class="fas fa-times-circle"></i> ¿Puedo cancelar mi pedido?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>En caso de cancelación por motivos imprevistos, debe notificar con suficiente tiempo para no causar pérdidas a M&G. <strong>No hay reembolso del 50% depositado</strong>. El cliente tiene el derecho de <strong>postergar su servicio</strong> para una nueva fecha dentro de los 30 días siguientes. En caso de problemas presentados por M&G, se hará la devolución total del depósito.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="contacto">
+        <h2 class="section-title"><i class="fas fa-phone"></i> Contacto</h2>
+        <div class="contact-info">
+            <div class="company-name"><i class="fas fa-building"></i> M&G En Cocina Casera</div>
+            <div class="contact-details">
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Las Tunas, Cuba</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-motorcycle"></i>
+                    <span>Cenas: Mensajería incluida | Buffet: 300 CUP</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fab fa-whatsapp"></i>
+                    <span>Contacto vía WhatsApp</span>
+                </div>
+            </div>
+
+            <div class="social-section">
+                <h3><i class="fas fa-share-alt"></i> Síguenos en Redes</h3>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/MyGenCocinaCasera" target="_blank" class="social-link">
+                        <i class="fab fa-facebook"></i>
+                        <span>M&G En Cocina Casera</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="rating-section">
+                <h3><i class="fas fa-star"></i> Valora Nuestro Servicio</h3>
+                <p>Tu opinión nos ayuda a mejorar. Selecciona una calificación y déjanos tu comentario.</p>
+                <div class="stars" id="starContainer">
+                    <span class="star" data-value="1">★</span>
+                    <span class="star" data-value="2">★</span>
+                    <span class="star" data-value="3">★</span>
+                    <span class="star" data-value="4">★</span>
+                    <span class="star" data-value="5">★</span>
+                </div>
+                <textarea class="rating-textarea" id="ratingComment" placeholder="Cuéntanos tu experiencia (opcional)..."></textarea>
+                <br>
+                <button class="btn-rating" id="btnRating" onclick="sendRating()">
+                    <i class="fas fa-paper-plane"></i> Enviar Valoración por WhatsApp
+                </button>
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+        <p><i class="fas fa-heart" style="color:var(--color-red);"></i> © 2026 M&G En Cocina Casera. Todos los derechos reservados.</p>
+        <p style="margin-top:5px; font-size:0.8rem; color:#666;">Las Tunas, Cuba - Sabor y Tradición</p>
+        <div class="footer-legal">
+            <a href="#" onclick="openLegalModal('modalPolitica'); return false;"><i class="fas fa-shield-alt"></i> Política de Seguridad</a>
+            <a href="#" onclick="openLegalModal('modalTerminos'); return false;"><i class="fas fa-file-contract"></i> Términos y Condiciones</a>
+        </div>
+    </footer>
+
+    <div class="legal-modal-overlay" id="modalPolitica">
+        <div class="legal-modal">
+            <button class="legal-modal-close" onclick="closeLegalModal('modalPolitica')">
+                <i class="fas fa-times"></i>
+            </button>
+            <h2><i class="fas fa-shield-alt"></i> Política de Seguridad</h2>
+
+            <h3><i class="fas fa-user-shield"></i> 1. Información que Recopilamos</h3>
+            <p>En M&G En Cocina Casera recopilamos únicamente la información necesaria para procesar su pedido:</p>
+            <ul>
+                <li>Nombre y apellidos del cliente</li>
+                <li>Dos números de teléfono de contacto</li>
+                <li>Dirección completa de entrega</li>
+                <li>Fecha y hora de entrega solicitada</li>
+                <li>Detalles del pedido, oferta seleccionada y cantidad de comensales</li>
+                <li>Notas adicionales sobre el pedido</li>
+            </ul>
+
+            <h3><i class="fas fa-hand-holding-shield"></i> 2. Uso de la Información</h3>
+            <p>La información proporcionada se utiliza exclusivamente para:</p>
+            <ul>
+                <li>Procesar y confirmar su reserva o pedido</li>
+                <li>Coordinar la entrega del pedido en la dirección indicada</li>
+                <li>Contactar al cliente en caso de dudas sobre el pedido</li>
+                <li>Generar el vale de reservación correspondiente</li>
+            </ul>
+            <p><strong style="color:var(--color-gold);">No compartimos sus datos con terceros</strong> ni los utilizamos para fines de marketing no solicitados.</p>
+
+            <h3><i class="fas fa-whatsapp"></i> 3. Comunicación por WhatsApp</h3>
+            <p>Los pedidos se procesan a través de WhatsApp. Al enviar su pedido, usted acepta que sus datos sean transmitidos vía WhatsApp al contacto de M&G con el único propósito de gestionar su reserva.</p>
+
+            <h3><i class="fas fa-dollar-sign"></i> 4. Información de Pagos</h3>
+            <p>Los pagos se realizan directamente entre el cliente y M&G. No almacenamos información bancaria ni de tarjetas de crédito en esta plataforma web. Los métodos de pago aceptados son: USD en efectivo, Zelle (con 10% de interés) y moneda nacional (CUP) al tipo de cambio vigente.</p>
+
+            <h3><i class="fas fa-trash-alt"></i> 5. Retención y Eliminación de Datos</h3>
+            <p>Los datos de los pedidos se conservan únicamente durante el tiempo necesario para cumplir con la entrega y cualquier reclamación posterior. No mantenemos registros permanentes de datos personales en servidores web.</p>
+
+            <h3><i class="fas fa-cookie-bite"></i> 6. Cookies y Tecnologías Similares</h3>
+            <p>Este sitio web no utiliza cookies de seguimiento ni tecnologías de terceros para recopilar información del usuario. La navegación es completamente anónima.</p>
+
+            <h3><i class="fas fa-phone"></i> 7. Contacto sobre Privacidad</h3>
+            <p>Si tiene alguna pregunta o inquietud sobre cómo manejamos sus datos personales, puede contactarnos directamente a través de WhatsApp al <strong style="color:var(--color-gold);">+53 5 6905522</strong> o visitar nuestra página de Facebook <a href="https://www.facebook.com/MyGenCocinaCasera" target="_blank" style="color:var(--color-gold);">M&G En Cocina Casera</a>.</p>
+
+            <h3><i class="fas fa-map-marker-alt"></i> 8. Ubicación del Negocio</h3>
+            <p>M&G En Cocina Casera opera desde <strong style="color:var(--color-gold);">Las Tunas, Cuba</strong>. El depósito del anticipo debe realizarse en nuestro domicilio para mayor transparencia. Si el cliente lo solicita, podemos llegar hasta donde lo solicite para recibir el pago.</p>
+        </div>
+    </div>
+
+    <div class="legal-modal-overlay" id="modalTerminos">
+        <div class="legal-modal">
+            <button class="legal-modal-close" onclick="closeLegalModal('modalTerminos')">
+                <i class="fas fa-times"></i>
+            </button>
+            <h2><i class="fas fa-file-contract"></i> Términos y Condiciones</h2>
+
+            <h3><i class="fas fa-info-circle"></i> 1. Sobre M&G En Cocina Casera</h3>
+            <p>M&G En Cocina Casera es un emprendimiento dedicado a la preparación y venta de comidas caseras. Operamos desde <strong style="color:var(--color-gold);">Las Tunas, Cuba</strong>, ofreciendo cenas de pollo y cerdo asado, así como un menú de buffet con cakes y postres artesanales. Contáctenos vía WhatsApp <strong style="color:var(--color-gold);">+53 5 6905522</strong> o síguenos en Facebook: <a href="https://www.facebook.com/MyGenCocinaCasera" target="_blank" style="color:var(--color-gold);">facebook.com/MyGenCocinaCasera</a></p>
+
+            <h3><i class="fas fa-calendar-alt"></i> 2. Reservas y Anticipación</h3>
+            <ul>
+                <li>Los pedidos deben realizarse con <strong>mínimo 5 días de anticipación</strong> para asegurar el servicio.</li>
+                <li>El servicio queda reservado sólo con el pago de un <strong>anticipo del 50%</strong>.</li>
+                <li>Los horarios de entrega de cenas son de <strong>11:30 am a 5:00 pm</strong>. En días festivos el horario es abierto por la cantidad de pedidos del día.</li>
+                <li>La confirmación del pedido se realiza únicamente a través de WhatsApp.</li>
+            </ul>
+
+            <h3><i class="fas fa-motorcycle"></i> 3. Servicio de Mensajería y Delivery</h3>
+            <ul>
+                <li>La mensajería en las <strong>cenas</strong> está <strong style="color:var(--color-gold);">incluida en el precio</strong> de la oferta.</li>
+                <li>La mensajería para productos de <strong>buffet</strong> tiene un costo de <strong style="color:var(--color-gold);">300 CUP</strong> en toda la ciudad de Las Tunas.</li>
+                <li>El cliente también puede optar por <strong>recoger el pedido en Las Tunas</strong> sin costo adicional.</li>
+            </ul>
+
+            <h3><i class="fas fa-dollar-sign"></i> 4. Precios y Métodos de Pago</h3>
+            <ul>
+                <li>Los precios están expresados en <strong>dólares (USD)</strong> para mantener tarifas estables.</li>
+                <li>Aceptamos pago en <strong>moneda nacional (CUP) al tipo de cambio vigente</strong>.</li>
+                <li>Aceptamos <strong>Zelle</strong> con un <strong>10% de interés</strong> adicional.</li>
+                <li>El anticipo del 50% debe realizarse en nuestro domicilio para mayor transparencia. Si el cliente lo solicita, podemos llegar hasta donde lo solicite.</li>
+                <li>El 50% restante se abona al momento de la entrega. En caso de pago por Zelle, debe ser abonado el día antes del servicio.</li>
+            </ul>
+
+            <h3><i class="fas fa-drumstick-bite"></i> 5. Sobre las Cenas</h3>
+            <ul>
+                <li>El pesaje de las carnes es <strong>antes de la cocción</strong>, pues al pasar por este proceso el pesaje merma.</li>
+                <li>Las cenas incluyen: arroz moros y cristianos, ensalada y vianda de estación.</li>
+                <li>Para ofertas mayores se cotiza de acuerdo a la cantidad de comensales deseada.</li>
+            </ul>
+
+            <h3><i class="fas fa-birthday-cake"></i> 6. Sobre los Cakes y Buffet</h3>
+            <ul>
+                <li>Las masas de cake están elaboradas únicamente con <strong>ingredientes naturales, sin emulsionantes</strong>.</li>
+                <li>El merengue utilizado es artificial; si desea merengue italiano o suizo, podemos cotizarlo especialmente.</li>
+                <li>Con el pago del cake solo se incluye en la decoración <strong>grageas</strong>; toppers y otros artículos decorativos tienen costo adicional.</li>
+                <li>Los pedidos de cakes deben realizarse con <strong>5 días de antelación</strong>.</li>
+            </ul>
+
+            <h3><i class="fas fa-times-circle"></i> 7. Cancelaciones y Modificaciones</h3>
+            <ul>
+                <li>Para cancelar o modificar un pedido, contacte lo antes posible por WhatsApp.</li>
+                <li><strong>No hay reembolso del 50% depositado</strong>.</li>
+                <li>El cliente tiene el derecho de <strong>postergar su servicio</strong> para una nueva fecha dentro de los 30 días siguientes.</li>
+                <li>En caso de problemas presentados por M&G, se hará la <strong>devolución total del depósito</strong>.</li>
+            </ul>
+
+            <h3><i class="fas fa-exclamation-triangle"></i> 8. Responsabilidad del Cliente</h3>
+            <p>El cliente tiene la responsabilidad de <strong>revisar su servicio y productos</strong> para constatar que todo esté en buen estado al momento de la entrega. Recuerde es su dinero y es usted quien paga. Exija por calidad y excelencia para evitar problemas mayores.</p>
+
+            <h3><i class="fas fa-exclamation-triangle"></i> 9. Limitación de Responsabilidad</h3>
+            <p>M&G no se hace responsable por retrasos en la entrega causados por factores externos (clima, tráfico, eventos de fuerza mayor).</p>
+
+            <h3><i class="fas fa-sync-alt"></i> 10. Modificaciones a los Términos</h3>
+            <p>M&G se reserva el derecho de modificar estos términos y condiciones en cualquier momento. Los cambios entrarán en vigor una vez publicados en esta página.</p>
+
+            <h3><i class="fas fa-phone"></i> 11. Contacto</h3>
+            <p>Para cualquier consulta, duda o solicitud especial, contáctenos a través de:</p>
+            <ul>
+                <li><strong>WhatsApp:</strong> +53 5 6905522</li>
+                <li><strong>Facebook:</strong> <a href="https://www.facebook.com/MyGenCocinaCasera" target="_blank" style="color:var(--color-gold);">M&G En Cocina Casera</a></li>
+                <li><strong>Ubicación:</strong> Las Tunas, Cuba</li>
+            </ul>
+            <p><strong style="color:var(--color-gold);">✓ Si presenta dudas, para nosotros siempre será un placer atenderle.</strong></p>
+        </div>
+    </div>
+
+    <a href="https://api.whatsapp.com/send?phone=5356905522" class="whatsapp-float" target="_blank" title="Chatear por WhatsApp">
+        <span class="float-text">Información</span>
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script>
+        const ofertasCenas = [
+            { id: 'o1', name: 'Pollo asado (5 lb) - 5 comensales', price: 25, comensales: '5 comensales', description: 'Pollo asado (5 lb) acompañado de arroz moros y cristianos, ensalada y vianda de estación.' },
+            { id: 'o2', name: 'Pollo asado (10 lb) - 10 comensales', price: 40, comensales: '10 comensales', description: 'Pollo asado (10 lb) acompañado de arroz moros y cristianos, ensalada y vianda de estación.' },
+            { id: 'o3', name: 'Cerdo asado (15-20 lb) - 10-15 comensales', price: 105, comensales: '10-15 comensales', description: 'Pieza de cerdo asado (15-20 lb) acompañado de arroz moros y cristianos, ensalada y vianda de estación.' },
+        ];
+
+        const cakes = [
+            { id: 'c1', name: 'Cake 10x20 cm - Guayaba', price: 7.2, size: '10x20 cm', tipo: 'Simple Relleno', sabor: 'Guayaba' },
+            { id: 'c2', name: 'Cake 10x20 cm - Dulce de Leche', price: 7.2, size: '10x20 cm', tipo: 'Simple Relleno', sabor: 'Dulce de Leche' },
+            { id: 'c3', name: 'Cake 10x20 cm - Fresa', price: 8.6, size: '10x20 cm', tipo: 'Simple Relleno', sabor: 'Crema pastelera sabor Fresa' },
+            { id: 'c4', name: 'Cake 10x20 cm - Nutella', price: 10.4, size: '10x20 cm', tipo: 'Simple Relleno', sabor: 'Nutella' },
+            { id: 'c5', name: 'Cake 10x20 cm - Choco Bombón', price: 10.0, size: '10x20 cm', tipo: 'Simple Relleno', sabor: 'Choco bombón' },
+            { id: 'c6', name: 'Cake 12x20 cm - Guayaba/Dulce de Leche', price: 10.2, size: '12x20 cm', tipo: 'Doble Relleno', sabor: 'Guayaba / Dulce de Leche' },
+            { id: 'c7', name: 'Cake 12x20 cm - Fresa', price: 10.7, size: '12x20 cm', tipo: 'Doble Relleno', sabor: 'Crema pastelera sabor Fresa' },
+            { id: 'c8', name: 'Cake 12x20 cm - Choco Bombón', price: 12.3, size: '12x20 cm', tipo: 'Doble Relleno', sabor: 'Choco bombón' },
+            { id: 'c9', name: 'Beso de Ángel', price: 11.7, size: 'Especial', tipo: 'Especial', sabor: 'Beso de ángel' },
+            { id: 'c10', name: 'Cake Tradicional', price: 9.3, size: 'Tradicional', tipo: 'Tradicional', sabor: 'Tradicional' },
+            { id: 'c11', name: 'Cake Capuchino', price: 12.6, size: 'Especial', tipo: 'Especial', sabor: 'Capuchino' },
+            { id: 'c12', name: 'Cake Premium - Nutella y Choco Bombón', price: 16.8, size: 'Premium', tipo: 'Premium', sabor: 'Relleno Nutella y cobertura Choco Bombón' },
+        ];
+
+        const postres = [
+            { id: 'p1', name: 'Drip', price: 0.8 },
+            { id: 'p2', name: 'Tres Leches', price: 2.0 },
+            { id: 'p3', name: 'Ensalada Fría 4L (Jamón, piña, mayonesa)', price: 9.5 },
+            { id: 'p4', name: 'Ensalada Fría 4L (Jamón, piña, mayonesa, pollo)', price: 10.5 },
+        ];
+
+        const buffetItems = [...cakes, ...postres];
+        const includesCenas = ['Arroz moros y cristianos', 'Ensalada', 'Vianda de estación'];
+
+        let selectedOffer = null;
+        let selectedBuffet = {};
+        let deliveryCost = 0;
+        let mensajeriaSelected = null;
+        const OWNER_PHONE = '5356905522';
+
+        document.addEventListener('DOMContentLoaded', function() {
+            renderOfertas();
+            renderCakes();
+            renderPostres();
+            renderBuffetOrder();
+            populateOfertaSelect();
+            setupEventListeners();
+            setupStarRating();
+            setMinDate();
+            setupMensajeria();
+        });
+
+        function setMinDate() {
+            const today = new Date();
+            today.setDate(today.getDate() + 5);
+            const yyyy = today.getFullYear();
+            const mm = String(today.getMonth() + 1).padStart(2, '0');
+            const dd = String(today.getDate()).padStart(2, '0');
+            document.getElementById('fecha').min = `${yyyy}-${mm}-${dd}`;
+        }
+
+        function renderOfertas() {
+            const grid = document.getElementById('ofertasGrid');
+            grid.innerHTML = ofertasCenas.map(o => createOfertaCard(o)).join('');
+        }
+
+        function createOfertaCard(item) {
+            return `
+                <div class="menu-card" data-id="${item.id}" data-type="oferta">
+                    <h3><i class="fas fa-fire"></i> ${item.name}</h3>
+                    <div class="includes">
+                        <h4><i class="fas fa-check-circle"></i> Incluye:</h4>
+                        <ul>
+                            ${includesCenas.map(i => `<li>${i}</li>`).join('')}
+                        </ul>
+                    </div>
+                    <p style="color:#ccc; font-size:0.9rem; margin-bottom:10px;">${item.description}</p>
+                    <div class="price">${item.price.toFixed(2)} USD</div>
+                    <div class="comensales"><i class="fas fa-users"></i> ${item.comensales}</div>
+                    <button type="button" class="btn-select" onclick="selectOffer('${item.id}', 'oferta')">
+                        <i class="fas fa-cart-plus"></i> Seleccionar
+                    </button>
+                </div>
+            `;
+        }
+
+        function renderCakes() {
+            const grid = document.getElementById('cakesGrid');
+            grid.innerHTML = cakes.map(c => createCakeCard(c)).join('');
+        }
+
+        function createCakeCard(item) {
+            return `
+                <div class="menu-card">
+                    <h3><i class="fas fa-birthday-cake"></i> ${item.name}</h3>
+                    <p style="color:#aaa; font-size:0.9rem; margin-bottom:10px;">
+                        <i class="fas fa-ruler-combined"></i> ${item.size} | ${item.tipo}
+                    </p>
+                    <p style="color:#ccc; font-size:0.9rem; margin-bottom:10px;">
+                        <i class="fas fa-candy-cane"></i> ${item.sabor}
+                    </p>
+                    <div class="price">${item.price.toFixed(2)} USD</div>
+                    <p style="text-align:center; color:#aaa; font-size:0.85rem; margin-top:10px;">
+                        <i class="fas fa-info-circle"></i> Decoración con grageas incluida
+                    </p>
+                </div>
+            `;
+        }
+
+        function renderPostres() {
+            const grid = document.getElementById('postresGrid');
+            grid.innerHTML = postres.map(p => createPostreCard(p)).join('');
+        }
+
+        function createPostreCard(item) {
+            let extra = '';
+            if (item.name.includes('Ensalada')) {
+                extra = '<p style="color:#ccc; font-size:0.85rem; margin-bottom:10px;"><i class="fas fa-utensils"></i> Jamón, dulce de piña, mayonesa casera' + (item.name.includes('pollo') ? ' y pollo' : '') + '</p>';
+            }
+            return `
+                <div class="menu-card">
+                    <h3><i class="fas fa-ice-cream"></i> ${item.name}</h3>
+                    ${extra}
+                    <div class="price">${item.price.toFixed(2)} USD</div>
+                    <p style="text-align:center; color:#aaa; font-size:0.9rem; margin-top:10px;">
+                        <i class="fas fa-info-circle"></i> Disponible como adicional
+                    </p>
+                </div>
+            `;
+        }
+
+        function renderBuffetOrder() {
+            const grid = document.getElementById('buffetOrderGrid');
+            grid.innerHTML = buffetItems.map(b => `
+                <div class="buffet-item">
+                    <label>${b.name}</label>
+                    <span class="buffet-price">${b.price.toFixed(2)} USD</span>
+                    <input type="number" id="buffet-${b.id}" min="0" value="0" 
+                           onchange="updateBuffetQuantity('${b.id}', this.value)"
+                           placeholder="Cantidad">
+                </div>
+            `).join('');
+        }
+
+        function populateOfertaSelect() {
+            const select = document.getElementById('oferta');
+            while (select.options.length > 1) {
+                select.remove(1);
+            }
+            ofertasCenas.forEach(item => {
+                const option = document.createElement('option');
+                option.value = item.id;
+                option.textContent = `${item.name} - ${item.price.toFixed(2)} USD`;
+                option.dataset.type = 'oferta';
+                select.appendChild(option);
+            });
+            const optionMayores = document.createElement('option');
+            optionMayores.value = 'mayores';
+            optionMayores.textContent = 'Oferta para grupos mayores (cotización personalizada)';
+            optionMayores.dataset.type = 'oferta';
+            select.appendChild(optionMayores);
+        }
+
+        function selectOffer(id, type) {
+            const allCards = document.querySelectorAll('.menu-card');
+            allCards.forEach(card => {
+                const btn = card.querySelector('.btn-select');
+                if (btn) {
+                    btn.innerHTML = '<i class="fas fa-cart-plus"></i> Seleccionar';
+                    btn.classList.remove('selected');
+                }
+            });
+
+            if (id === 'mayores') {
+                selectedOffer = { id: 'mayores', name: 'Oferta para grupos mayores (cotización personalizada)', price: 0, comensales: 'Personalizado', description: 'Cotización según cantidad de comensales' };
+            } else {
+                selectedOffer = ofertasCenas.find(i => i.id === id);
+            }
+
+            if (id !== 'mayores') {
+                const card = document.querySelector(`[data-id="${id}"][data-type="${type}"]`);
+                if (card) {
+                    const btn = card.querySelector('.btn-select');
+                    btn.innerHTML = '<i class="fas fa-check"></i> Seleccionado';
+                    btn.classList.add('selected');
+                }
+            }
+
+            const select = document.getElementById('oferta');
+            select.value = id;
+
+            updateSummary();
+            showToast('Oferta seleccionada: ' + selectedOffer.name);
+        }
+
+        document.getElementById('oferta').addEventListener('change', function() {
+            const id = this.value;
+            if (!id) {
+                selectedOffer = null;
+                document.querySelectorAll('.menu-card .btn-select').forEach(btn => {
+                    btn.innerHTML = '<i class="fas fa-cart-plus"></i> Seleccionar';
+                    btn.classList.remove('selected');
+                });
+                updateSummary();
+                return;
+            }
+            const type = this.options[this.selectedIndex].dataset.type;
+            selectOffer(id, type);
+        });
+
+        function updateBuffetQuantity(id, quantity) {
+            quantity = parseInt(quantity) || 0;
+            if (quantity > 0) {
+                selectedBuffet[id] = quantity;
+            } else {
+                delete selectedBuffet[id];
+            }
+            updateSummary();
+        }
+
+        function setupMensajeria() {
+            const radioSi = document.getElementById('mensajeriaSi');
+            const radioNo = document.getElementById('mensajeriaNo');
+            radioSi.addEventListener('change', function() {
+                if (this.checked) selectMensajeria(true);
+            });
+            radioNo.addEventListener('change', function() {
+                if (this.checked) selectMensajeria(false);
+            });
+        }
+
+        function selectMensajeria(needsDelivery) {
+            mensajeriaSelected = needsDelivery ? 'si' : 'no';
+            const optSi = document.getElementById('optSi');
+            const optNo = document.getElementById('optNo');
+            const radioSi = document.getElementById('mensajeriaSi');
+            const radioNo = document.getElementById('mensajeriaNo');
+            const deliveryInfo = document.getElementById('deliveryInfo');
+            const pickupInfo = document.getElementById('pickupInfo');
+            const error = document.getElementById('mensajeriaError');
+
+            if (needsDelivery) {
+                radioSi.checked = true;
+                optSi.classList.add('selected');
+                optNo.classList.remove('selected-no');
+                deliveryCost = 300;
+                deliveryInfo.classList.add('visible');
+                pickupInfo.classList.remove('visible');
+            } else {
+                radioNo.checked = true;
+                optNo.classList.add('selected-no');
+                optSi.classList.remove('selected');
+                deliveryCost = 0;
+                deliveryInfo.classList.remove('visible');
+                pickupInfo.classList.add('visible');
+            }
+
+            error.classList.remove('visible');
+            updateSummary();
+        }
+
+        function updateSummary() {
+            const container = document.getElementById('summaryContent');
+            let html = '';
+            let totalUSD = 0;
+
+            if (selectedOffer) {
+                html += `
+                    <div class="summary-item">
+                        <span><i class="fas fa-drumstick-bite"></i> ${selectedOffer.name}</span>
+                        <span>${selectedOffer.price > 0 ? selectedOffer.price.toFixed(2) + ' USD' : 'Cotización personalizada'}</span>
+                    </div>
+                `;
+                totalUSD += selectedOffer.price;
+            }
+
+            const buffetEntries = Object.entries(selectedBuffet);
+            if (buffetEntries.length > 0) {
+                html += `<div style="margin:10px 0; padding:10px; background:rgba(0,0,0,0.2); border-radius:8px;">
+                    <strong style="color:var(--color-gold);"><i class="fas fa-cookie-bite"></i> Buffet:</strong>`;
+                buffetEntries.forEach(([id, qty]) => {
+                    const item = buffetItems.find(b => b.id === id);
+                    const subtotal = item.price * qty;
+                    totalUSD += subtotal;
+                    html += `
+                        <div class="summary-item" style="border:none; padding:4px 0;">
+                            <span style="padding-left:20px;">• ${item.name} x${qty}</span>
+                            <span>${subtotal.toFixed(2)} USD</span>
+                        </div>
+                    `;
+                });
+                html += `</div>`;
+            }
+
+            if (deliveryCost > 0 && buffetEntries.length > 0) {
+                html += `
+                    <div class="summary-item">
+                        <span><i class="fas fa-motorcycle"></i> Mensajería buffet</span>
+                        <span>${deliveryCost.toLocaleString()} CUP</span>
+                    </div>
+                `;
+            }
+
+            if (totalUSD > 0 || selectedOffer) {
+                html += `
+                    <div class="summary-total">
+                        <span><i class="fas fa-calculator"></i> TOTAL:</span>
+                        <span>${totalUSD > 0 ? totalUSD.toFixed(2) + ' USD' : 'Cotización personalizada'}</span>
+                    </div>
+                `;
+                if (deliveryCost > 0 && buffetEntries.length > 0) {
+                    html += `<p style="text-align:center; color:#aaa; font-size:0.85rem; margin-top:5px;">+ ${deliveryCost.toLocaleString()} CUP por mensajería de buffet</p>`;
+                }
+                html += `<p style="text-align:center; color:var(--color-gold); font-size:0.9rem; margin-top:10px;"><i class="fas fa-hand-holding-usd"></i> Anticipo del 50% requerido para reservar</p>`;
+            } else {
+                html = '<p style="text-align:center; color:#aaa;">Seleccione una oferta para ver el resumen...</p>';
+            }
+
+            container.innerHTML = html;
+        }
+
+        document.getElementById('orderForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            if (!selectedOffer) {
+                showToast('❌ Por favor seleccione una oferta primero', 'error');
+                document.getElementById('cenas').scrollIntoView({ behavior: 'smooth' });
+                return;
+            }
+
+            if (!mensajeriaSelected) {
+                document.getElementById('mensajeriaError').classList.add('visible');
+                showToast('❌ Debe seleccionar una opción de mensajería', 'error');
+                document.querySelector('.mensajeria-container').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                return;
+            }
+
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+
+            const voucherText = buildVoucherText(data);
+
+            document.getElementById('voucherContent').textContent = voucherText;
+            document.getElementById('voucherPreview').classList.add('visible');
+
+            const encodedMessage = encodeURIComponent(voucherText);
+            const whatsappUrl = `https://api.whatsapp.com/send?phone=${OWNER_PHONE}&text=${encodedMessage}`;
+            document.getElementById('whatsappLink').href = whatsappUrl;
+
+            document.getElementById('voucherPreview').scrollIntoView({ behavior: 'smooth' });
+
+            showToast('✅ Vale generado. Presione "Enviar por WhatsApp" para completar el pedido.');
+        });
+
+        function buildVoucherText(data) {
+            const now = new Date();
+            const fechaActual = now.toLocaleDateString('es-CU');
+            const horaActual = now.toLocaleTimeString('es-CU');
+
+            let text = `🍖 *VALE DE RESERVACIÓN - M&G EN COCINA CASERA* 🍖\n`;
+            text += `═══════════════════════════════\n\n`;
+            text += `⚠️ M&G han elaborado este mensaje para brindarle información importante sobre el servicio. Leer hasta el final.\n\n`;
+            text += `📅 *Fecha de emisión:* ${fechaActual} ${horaActual}\n\n`;
+            text += `👤 *1️⃣ Nombre y Apellidos:* ${data.nombre}\n`;
+            text += `📞 *2️⃣ Teléfono:* ${data.telefono}\n`;
+            text += `📞 *3️⃣ Tel. alternativo:* ${data.telefonoAlt}\n`;
+            text += `📍 *4️⃣ Dirección:* ${data.direccion}\n\n`;
+            text += `📦 *5️⃣ OFERTA Y/O CANTIDAD DE COMENSALES:*\n`;
+            text += `───────────────────────────────\n`;
+            text += `🍽️ ${selectedOffer.name}\n`;
+            if (selectedOffer.price > 0) {
+                text += `   Precio: ${selectedOffer.price.toFixed(2)} USD\n`;
+            } else {
+                text += `   Precio: Cotización personalizada\n`;
+            }
+            text += `   Comensales: ${selectedOffer.comensales}\n`;
+            if (data.cantidadComensales) {
+                text += `   Cantidad indicada: ${data.cantidadComensales} comensales\n`;
+            }
+            text += `\n`;
+
+            let totalUSD = selectedOffer.price;
+
+            const buffetEntries = Object.entries(selectedBuffet);
+            if (buffetEntries.length > 0) {
+                text += `🍰 *BUFFET ADICIONAL:*\n`;
+                buffetEntries.forEach(([id, qty]) => {
+                    const item = buffetItems.find(b => b.id === id);
+                    const subtotal = item.price * qty;
+                    totalUSD += subtotal;
+                    text += `   • ${item.name} x${qty} = ${subtotal.toFixed(2)} USD\n`;
+                });
+                text += `\n`;
+            }
+
+            if (data.mensajeria === 'si') {
+                text += `🛵 *Mensajería buffet:* 300 CUP\n`;
+            } else {
+                text += `🏪 *Recogida en:* Las Tunas\n`;
+            }
+
+            text += `\n`;
+            if (totalUSD > 0) {
+                const anticipo = totalUSD * 0.5;
+                text += `💰 *TOTAL: ${totalUSD.toFixed(2)} USD*\n`;
+                text += `💰 *ANTICIPO REQUERIDO (50%): ${anticipo.toFixed(2)} USD*\n\n`;
+            }
+
+            text += `📅 *Fecha de entrega:* ${data.fecha}\n`;
+            text += `⏰ *Hora de entrega:* ${data.hora}\n\n`;
+
+            if (data.notas) {
+                text += `📝 *Notas:* ${data.notas}\n\n`;
+            }
+
+            text += `═══════════════════════════════\n`;
+            text += `📢 *NOTAS IMPORTANTES:*\n\n`;
+            text += `1️⃣ Todas las entregas de las *cenas* a partir de las 11:30 am hasta las 5:00 p.m. En días festivos horario abierto.\n`;
+            text += `2️⃣ El depósito del 50% debe realizarse en nuestro domicilio. El 50% restante al momento de la entrega. En caso de Zelle, abonar el día antes del servicio.\n`;
+            text += `3️⃣ El cliente tiene la responsabilidad de revisar su servicio y productos para constatar que todo esté en buen estado.\n`;
+            text += `4️⃣ En caso de cancelación, no hay reembolso del 50% depositado. Puede postergar para una nueva fecha dentro de 30 días.\n`;
+            text += `5️⃣ En caso de problemas presentados por M&G, se hará la devolución total del depósito.\n\n`;
+            text += `✓ Si presenta dudas, para nosotros siempre será un placer atenderle.\n\n`;
+            text += `✅ Gracias por elegir M&G En Cocina Casera\n`;
+            text += `📍 Las Tunas, Cuba`;
+
+            return text;
+        }
+
+        function copyVoucherToClipboard() {
+            const voucherText = document.getElementById('voucherContent').textContent;
+            navigator.clipboard.writeText(voucherText).then(() => {
+                showToast('✅ Vale copiado al portapapeles. Péguelo en WhatsApp.');
+            }).catch(() => {
+                const textarea = document.createElement('textarea');
+                textarea.value = voucherText;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                showToast('✅ Vale copiado al portapapeles. Péguelo en WhatsApp.');
+            });
+        }
+
+        function toggleOffer(btn, contentId) {
+            const content = document.getElementById(contentId);
+            const isOpen = content.classList.contains('open');
+
+            document.querySelectorAll('.offer-content').forEach(c => c.classList.remove('open'));
+            document.querySelectorAll('.offer-btn').forEach(b => b.classList.remove('active'));
+
+            if (!isOpen) {
+                content.classList.add('open');
+                btn.classList.add('active');
+            }
+        }
+
+        function toggleFaq(element) {
+            const answer = element.nextElementSibling;
+            const icon = element.querySelector('.fa-chevron-down');
+            const isOpen = answer.classList.contains('open');
+
+            document.querySelectorAll('.faq-answer').forEach(a => a.classList.remove('open'));
+            document.querySelectorAll('.faq-question .fa-chevron-down').forEach(i => i.style.transform = 'rotate(0deg)');
+
+            if (!isOpen) {
+                answer.classList.add('open');
+                icon.style.transform = 'rotate(180deg)';
+            }
+        }
+
+        let currentRating = 0;
+
+        function setupStarRating() {
+            const stars = document.querySelectorAll('.star');
+            stars.forEach(star => {
+                star.addEventListener('click', function() {
+                    currentRating = parseInt(this.dataset.value);
+                    updateStars();
+                });
+                star.addEventListener('mouseenter', function() {
+                    const val = parseInt(this.dataset.value);
+                    stars.forEach((s, i) => {
+                        s.classList.toggle('active', i < val);
+                    });
+                });
+            });
+            document.getElementById('starContainer').addEventListener('mouseleave', updateStars);
+        }
+
+        function updateStars() {
+            const stars = document.querySelectorAll('.star');
+            stars.forEach((star, i) => {
+                star.classList.toggle('active', i < currentRating);
+            });
+        }
+
+        function sendRating() {
+            if (currentRating === 0) {
+                showToast('❌ Por favor seleccione una calificación', 'error');
+                return;
+            }
+            const comment = document.getElementById('ratingComment').value.trim();
+            let message = `⭐ *VALORACIÓN DE SERVICIO - M&G EN COCINA CASERA* ⭐\n\n`;
+            message += `Calificación: ${'★'.repeat(currentRating)}${'☆'.repeat(5 - currentRating)}\n`;
+            message += `Estrellas: ${currentRating}/5\n\n`;
+            if (comment) {
+                message += `💬 *Comentario:*\n${comment}\n\n`;
+            }
+            message += `Enviado desde la web de M&G En Cocina Casera`;
+
+            const encoded = encodeURIComponent(message);
+            window.open(`https://wa.me/${OWNER_PHONE}?text=${encoded}`, '_blank');
+            showToast('✅ Abriendo WhatsApp para enviar su valoración...');
+        }
+
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.style.background = type === 'error' ? '#DC3545' : '#25D366';
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 4000);
+        }
+
+        function setupEventListeners() {
+            document.querySelectorAll('.nav-menu a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) target.scrollIntoView({ behavior: 'smooth' });
+                });
+            });
+        }
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('open');
+            document.body.style.overflow = sidebar.classList.contains('open') ? 'hidden' : '';
+        }
+        function closeSidebarAndScroll(selector, event) {
+            if (event) event.preventDefault();
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            if (sidebar) sidebar.classList.remove('open');
+            if (overlay) overlay.classList.remove('open');
+            document.body.style.overflow = '';
+            setTimeout(() => {
+                const target = document.querySelector(selector);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }, 350);
+        }
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const sidebar = document.getElementById('sidebar');
+                if (sidebar.classList.contains('open')) toggleSidebar();
+            }
+        });
+
+        function openLegalModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.add('open');
+                document.body.style.overflow = 'hidden';
+            } else {
+                showToast('❌ Error al abrir la ventana. Intente de nuevo.', 'error');
+            }
+        }
+        function closeLegalModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.remove('open');
+                document.body.style.overflow = '';
+            }
+        }
+        document.querySelectorAll('.legal-modal-overlay').forEach(overlay => {
+            overlay.addEventListener('click', function(e) {
+                if (e.target === this) closeLegalModal(this.id);
+            });
+        });
+    </script>
+</body>
+</html>
